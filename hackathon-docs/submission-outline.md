@@ -26,9 +26,11 @@ Our main contributions are:
 
 ## 2. Related Work
 
-This project builds on three strands of work. First, Lean 4 and theorem-proving workflows show how specs can be turned into something mechanically checkable, but they do not solve the upstream problem of deciding which spec to write. Second, property-based testing and fuzzing show how executable witnesses can expose corner cases and hidden assumptions. Third, recent SPS and verification-oriented work emphasizes that specification quality is often the bottleneck, not implementation quality.
+This project builds on three strands of prior work. First, Lean 4 and its theorem-proving ecosystem show how informal requirements can be turned into mechanically checkable specifications and proofs, but they do not by themselves solve the upstream question of which spec to write [1]. Tooling that brings practical validation and assurance to Lean artifacts, such as the `lean-tcb` project, illustrates the value of integrating specification and validation workflows early in development [2].
 
-The most directly relevant references for this hackathon are Lean validation tooling such as *lean-tcb*, the Lean documentation on validating proofs, and discussions of specification brittleness such as *Specifications Don't Exist*. Our method differs from standard validation workflows by using disagreement between two model-generated candidate specs as the primary signal, rather than starting from one spec and checking only that spec in isolation.
+Second, property-based testing and fuzzing demonstrate how executable witnesses can expose corner cases and hidden assumptions; modern Python tooling such as Hypothesis makes property-based exploration broadly accessible, while fuzzing tools (e.g., American Fuzzy Lop) highlight how automated input generation can find subtle boundary failures [3,4].
+
+Third, recent discussions of specification brittleness emphasize that the hardest part of verification is often producing a precise, unambiguous requirement rather than mechanically checking a given one [5]. Our method differs from standard workflows by treating disagreement between independently generated candidate specs as the primary signal of underspecification, and by using lightweight normalization plus witness search to surface concrete examples of divergent behavior.
 
 ## 3. Methods
 
@@ -90,11 +92,12 @@ The broader takeaway is that validation should not start after the spec is fixed
 
 ## References
 
-1. Dodds, M. (2025). *Specifications Don't Exist*. Galois. https://galois.com/blog/specifications-dont-exist/
-2. OathTech / Lean community (2026). *lean-tcb: Trusted computing base analyzer for Lean 4*. https://github.com/OathTech/lean-tcb
-3. Lean community (2026). *Lean 4 Reference Documentation*. https://leanprover.github.io/reference/
-4. Hypothesis team (2026). *Hypothesis documentation*. https://hypothesis.readthedocs.io/
-5. Apart Research (2026). *Secure Program Synthesis Hackathon description and guidelines*. https://apartresearch.com/sprints/secure-program-synthesis-hackathon-2026-05-22-to-2026-05-24
+1. Lean 4 Reference Manual — The official Lean language reference and manual. https://leanprover.github.io/reference/
+2. OathTech / Lean community — `lean-tcb: Trusted computing base analyzer for Lean 4` (GitHub). https://github.com/OathTech/lean-tcb
+3. Hypothesis — Property-based testing for Python (documentation). https://hypothesis.readthedocs.io/
+4. American Fuzzy Lop (AFL) — A widely used coverage-guided fuzzing tool. https://lcamtuf.coredump.cx/afl/
+5. Dodds, M. (2025). "Specifications Don't Exist" — Galois blog post on specification brittleness. https://galois.com/blog/specifications-dont-exist/
+6. Apart Research (2026). Secure Program Synthesis Hackathon description and guidelines. https://apartresearch.com/sprints/secure-program-synthesis-hackathon-2026-05-22-to-2026-05-24
 
 ## Appendix
 
