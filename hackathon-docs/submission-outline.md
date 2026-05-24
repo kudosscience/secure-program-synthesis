@@ -66,17 +66,15 @@ There is also a dual-use angle. A tool that helps identify weak specs can also h
 
 ### Limitations
 
-- Small task set and only three samples per model.
-- Prompt-sensitive results: stronger prompting may surface different disagreement patterns.
-- The witness search is deliberately shallow and only covers obvious boundary cases.
-- Live results should be treated as evidence of usefulness, not as a benchmark claim.
+Although the live run produced a clear example of cross-model disagreement for the token expiry task, several limitations constrain how broadly these results can be interpreted. The evaluation covers only a very small set of tasks and uses just three samples per model, so the findings are indicative rather than statistically representative. Results are also sensitive to prompt design and generation settings: stronger, adversarial, or differently phrased prompts could surface different disagreement patterns or push models toward alternative semantic choices.
+
+The witness search implemented here is intentionally lightweight and focused on obvious boundary cases; it does not perform exhaustive or adversarial exploration of the input space, and therefore may miss subtler semantic differences. Finally, the experiments were conducted on a tight budget and should be treated as evidence of the pipeline's usefulness in surfacing underspecification rather than as benchmark-grade measurements of model reliability or generalization.
 
 ### Future Work
 
-- Expand from three tasks to a larger benchmark of spec boundary conditions.
-- Add a more robust parser for non-JSON model outputs and richer Lean normalization.
-- Integrate property-based fuzzing more deeply so witnesses can be synthesized automatically instead of hand-seeded.
-- Compare more than two models, or vary prompting strategy to estimate disagreement stability.
+There are several clear directions to strengthen and scale this approach. First, expanding from three tasks to a larger, more diverse benchmark of specification boundary conditions would allow quantitative assessment of how often model disagreement corresponds to meaningful underspecification. Second, improving the normalization pipeline — for example by adding a more robust parser for non-JSON model outputs and richer Lean 4 canonicalization — would reduce noise introduced by formatting and surface-level differences.
+
+Third, integrating property-based fuzzing and automated witness synthesis more deeply would transform the current, hand-seeded witness checks into a systematic counterexample generator capable of discovering less obvious divergences. Finally, extending the study to more models, experimenting with varied prompting strategies (including adversarial prompts), and measuring disagreement stability under different generation settings would provide a clearer picture of when and why this signal is most informative.
 
 ## 6. Conclusion
 
@@ -89,10 +87,6 @@ The broader takeaway is that validation should not start after the spec is fixed
 - Code repository: https://github.com/kudosscience/secure-program-synthesis
 - Live report artifacts: `../artifacts/live/report.html`, `../artifacts/live/results.json`, `../artifacts/live/figure1.svg`
 - Offline reproducibility artifacts: `../artifacts/demo/report.html`, `../artifacts/demo/results.json`
-
-## Author Contributions
-
-Henry designed the project, implemented the pipeline, ran the validation experiments, and drafted the report. All claims in this report were checked against saved run outputs and generated artifacts.
 
 ## References
 
