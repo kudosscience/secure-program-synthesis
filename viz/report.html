@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>$title</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: #fffaf2;
+      --ink: #241b16;
+      --accent: #7c3f1d;
+      --line: #d7c6b7;
+      --soft: #6b5d50;
+    }
+    body { margin: 0; font-family: Georgia, 'Times New Roman', serif; background: linear-gradient(180deg, #fcf7f0 0%, var(--bg) 100%); color: var(--ink); }
+    main { max-width: 1200px; margin: 0 auto; padding: 32px 20px 48px; }
+    header { border-bottom: 2px solid var(--line); padding-bottom: 16px; margin-bottom: 24px; }
+    h1, h2, h3, h4 { color: var(--accent); }
+    .meta { color: var(--soft); margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; background: white; }
+    th, td { border: 1px solid var(--line); padding: 8px 10px; vertical-align: top; }
+    th { background: #efe2d4; text-align: left; }
+    .task-section { margin-top: 28px; padding-top: 8px; border-top: 1px solid var(--line); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+    .card { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: var(--panel); box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+    code, pre { background: #f6ede2; border: 1px solid #dfcdbd; border-radius: 8px; padding: 8px; overflow-x: auto; white-space: pre-wrap; }
+    pre { margin: 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>$title</h1>
+      <div class="meta">Generated at $generated_at | Samples: $sample_count</div>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <table>
+        <thead>
+          <tr><th>Task</th><th>Best pair</th><th>Score</th><th>Modes</th></tr>
+        </thead>
+        <tbody>
+          $summary_rows
+        </tbody>
+      </table>
+    </section>
+
+    $sections
+  </main>
+</body>
+</html>

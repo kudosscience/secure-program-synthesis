@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cross-Model Spec Comparison</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: #fffaf2;
+      --ink: #241b16;
+      --accent: #7c3f1d;
+      --line: #d7c6b7;
+      --soft: #6b5d50;
+    }
+    body { margin: 0; font-family: Georgia, 'Times New Roman', serif; background: linear-gradient(180deg, #fcf7f0 0%, var(--bg) 100%); color: var(--ink); }
+    main { max-width: 1200px; margin: 0 auto; padding: 32px 20px 48px; }
+    header { border-bottom: 2px solid var(--line); padding-bottom: 16px; margin-bottom: 24px; }
+    h1, h2, h3, h4 { color: var(--accent); }
+    .meta { color: var(--soft); margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; background: white; }
+    th, td { border: 1px solid var(--line); padding: 8px 10px; vertical-align: top; }
+    th { background: #efe2d4; text-align: left; }
+    .task-section { margin-top: 28px; padding-top: 8px; border-top: 1px solid var(--line); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+    .card { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: var(--panel); box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+    code, pre { background: #f6ede2; border: 1px solid #dfcdbd; border-radius: 8px; padding: 8px; overflow-x: auto; white-space: pre-wrap; }
+    pre { margin: 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Cross-Model Spec Comparison</h1>
+      <div class="meta">Generated at 2026-05-24T09:10:37+00:00 | Samples: 18</div>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <table>
+        <thead>
+          <tr><th>Task</th><th>Best pair</th><th>Score</th><th>Modes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Sortedness Property</td><td>gpt-4o vs gpt-3.5-turbo</td><td>13</td><td>stable vs unstable</td></tr><tr><td>Token-Bucket Rate Limiter</td><td>gpt-4o vs gpt-3.5-turbo</td><td>13</td><td>refill_first vs consume_first</td></tr><tr><td>Token Expiry Semantics</td><td>gpt-4o vs gpt-3.5-turbo</td><td>13</td><td>inclusive vs exclusive</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    
+            <section class="task-section">
+              <h2>Sortedness Property</h2>
+              <p>Validate whether a candidate sorting specification is stable and permutation preserving.</p>
+              <div class="grid">
+                <div class="card">
+                  <h4>gpt-4o sample 1</h4>
+                  <p><strong>Semantic mode:</strong> stable</p>
+                  <p><strong>Lean:</strong><br><code>def SortedSpec : Prop := <br>  forall xs ys, SortedOutput xs ys -&gt; Nondecreasing ys ∧ Permutation xs ys ∧ StableEqualOrder xs ys</code></p>
+                  <p><strong>Assumptions:</strong> elements are comparable, values may repeat</p>
+                  <p><strong>Preconditions:</strong> input is a finite list</p>
+                  <p><strong>Postconditions:</strong> output is nondecreasing, output is a permutation, equal elements keep their input order</p>
+                  <p><strong>Invariants:</strong> multiset preserved</p>
+                  <p><strong>Examples:</strong> [(1,&#x27;a&#x27;), (1,&#x27;b&#x27;)] -&gt; [(1,&#x27;a&#x27;), (1,&#x27;b&#x27;)], duplicates preserve order</p>
+                  <p><strong>Notes:</strong> stable sorting interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 2</h4>
+                  <p><strong>Semantic mode:</strong> stable</p>
+                  <p><strong>Lean:</strong><br><code>def SortedSpec : Prop := <br>  forall xs ys, SortedOutput xs ys -&gt; Nondecreasing ys ∧ Permutation xs ys ∧ StableEqualOrder xs ys</code></p>
+                  <p><strong>Assumptions:</strong> elements are comparable, values may repeat</p>
+                  <p><strong>Preconditions:</strong> input is a finite list</p>
+                  <p><strong>Postconditions:</strong> output is nondecreasing, output is a permutation, equal elements keep their input order</p>
+                  <p><strong>Invariants:</strong> multiset preserved</p>
+                  <p><strong>Examples:</strong> [(1,&#x27;a&#x27;), (1,&#x27;b&#x27;)] -&gt; [(1,&#x27;a&#x27;), (1,&#x27;b&#x27;)], duplicates preserve order</p>
+                  <p><strong>Notes:</strong> stable sorting interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 3</h4>
+                  <p><strong>Semantic mode:</strong> unstable</p>
+                  <p><strong>Lean:</strong><br><code>def SortedSpec : Prop := <br>  forall xs ys, SortedOutput xs ys -&gt; Nondecreasing ys ∧ Permutation xs ys</code></p>
+                  <p><strong>Assumptions:</strong> elements are comparable, values may repeat</p>
+                  <p><strong>Preconditions:</strong> input is a finite list</p>
+                  <p><strong>Postconditions:</strong> output is nondecreasing, output is a permutation</p>
+                  <p><strong>Invariants:</strong> multiset preserved</p>
+                  <p><strong>Examples:</strong> [(1,&#x27;a&#x27;), (1,&#x27;b&#x27;)] -&gt; [(1,&#x27;b&#x27;), (1,&#x27;a&#x27;)], stability not required</p>
+                  <p><strong>Notes:</strong> unstable sorting interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 1</h4>
+                  <p><strong>Semantic mode:</strong> unstable</p>
+                  <p><strong>Lean:</strong><br><code>def SortedSpec : Prop := <br>  forall xs ys, SortedOutput xs ys -&gt; Nondecreasing ys ∧ Permutation xs ys</code></p>
+                  <p><strong>Assumptions:</strong> elements are comparable, values may repeat</p>
+                  <p><strong>Preconditions:</strong> input is a finite list</p>
+                  <p><strong>Postconditions:</strong> output is nondecreasing, output is a permutation</p>
+                  <p><strong>Invariants:</strong> multiset preserved</p>
+                  <p><strong>Examples:</strong> [(1,&#x27;a&#x27;), (1,&#x27;b&#x27;)] -&gt; [(1,&#x27;b&#x27;), (1,&#x27;a&#x27;)], stability not required</p>
+                  <p><strong>Notes:</strong> unstable sorting interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 2</h4>
+                  <p><strong>Semantic mode:</strong> stable</p>
+                  <p><strong>Lean:</strong><br><code>def SortedSpec : Prop := <br>  forall xs ys, SortedOutput xs ys -&gt; Nondecreasing ys ∧ Permutation xs ys ∧ StableEqualOrder xs ys</code></p>
+                  <p><strong>Assumptions:</strong> elements are comparable, values may repeat</p>
+                  <p><strong>Preconditions:</strong> input is a finite list</p>
+                  <p><strong>Postconditions:</strong> output is nondecreasing, output is a permutation, equal elements keep their input order</p>
+                  <p><strong>Invariants:</strong> multiset preserved</p>
+                  <p><strong>Examples:</strong> [(1,&#x27;a&#x27;), (1,&#x27;b&#x27;)] -&gt; [(1,&#x27;a&#x27;), (1,&#x27;b&#x27;)], duplicates preserve order</p>
+                  <p><strong>Notes:</strong> stable sorting interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 3</h4>
+                  <p><strong>Semantic mode:</strong> unstable</p>
+                  <p><strong>Lean:</strong><br><code>def SortedSpec : Prop := <br>  forall xs ys, SortedOutput xs ys -&gt; Nondecreasing ys ∧ Permutation xs ys</code></p>
+                  <p><strong>Assumptions:</strong> elements are comparable, values may repeat</p>
+                  <p><strong>Preconditions:</strong> input is a finite list</p>
+                  <p><strong>Postconditions:</strong> output is nondecreasing, output is a permutation</p>
+                  <p><strong>Invariants:</strong> multiset preserved</p>
+                  <p><strong>Examples:</strong> [(1,&#x27;a&#x27;), (1,&#x27;b&#x27;)] -&gt; [(1,&#x27;b&#x27;), (1,&#x27;a&#x27;)], stability not required</p>
+                  <p><strong>Notes:</strong> unstable sorting interpretation</p>
+                </div>
+                </div>
+              <h3>Pairwise disagreement summary</h3>
+              <table>
+                <thead><tr><th>Left</th><th>Right</th><th>Score</th><th>Left mode</th><th>Right mode</th><th>Counterexample</th></tr></thead>
+                <tbody><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 1</td><td>13</td><td>stable</td><td>unstable</td><td>A reordered duplicate pair distinguishes stable sorting from value-only sorting.</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 3</td><td>13</td><td>stable</td><td>unstable</td><td>A reordered duplicate pair distinguishes stable sorting from value-only sorting.</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 1</td><td>13</td><td>stable</td><td>unstable</td><td>A reordered duplicate pair distinguishes stable sorting from value-only sorting.</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 3</td><td>13</td><td>stable</td><td>unstable</td><td>A reordered duplicate pair distinguishes stable sorting from value-only sorting.</td></tr><tr><td>gpt-4o 3</td><td>gpt-3.5-turbo 2</td><td>13</td><td>unstable</td><td>stable</td><td>A reordered duplicate pair distinguishes stable sorting from value-only sorting.</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 2</td><td>0</td><td>stable</td><td>stable</td><td>No counterexample</td></tr></tbody>
+              </table>
+              <h3>Best counterexample</h3>
+              
+            <pre>{
+  &quot;input&quot;: [
+    [
+      1,
+      &quot;a&quot;
+    ],
+    [
+      1,
+      &quot;b&quot;
+    ]
+  ],
+  &quot;candidate_output&quot;: [
+    [
+      1,
+      &quot;b&quot;
+    ],
+    [
+      1,
+      &quot;a&quot;
+    ]
+  ]
+}</pre>
+            <p><strong>Explanation:</strong> The unstable interpretation accepts the witness because the output is nondecreasing, while the stable interpretation rejects it because equal elements are reordered.</p>
+            <p><strong>Accepted by left:</strong> false | <strong>Accepted by right:</strong> true</p>
+            
+            </section>
+            
+            <section class="task-section">
+              <h2>Token-Bucket Rate Limiter</h2>
+              <p>Validate whether refill is applied before or after a request at the same timestamp boundary.</p>
+              <div class="grid">
+                <div class="card">
+                  <h4>gpt-4o sample 1</h4>
+                  <p><strong>Semantic mode:</strong> refill_first</p>
+                  <p><strong>Lean:</strong><br><code>def RateLimitSpec : Prop := <br>  refillBeforeConsume = true</code></p>
+                  <p><strong>Assumptions:</strong> token bucket has finite capacity, timestamps are monotonic</p>
+                  <p><strong>Preconditions:</strong> requests carry timestamps</p>
+                  <p><strong>Postconditions:</strong> refill is applied before the request decision, boundary-time requests can become admissible after refill</p>
+                  <p><strong>Invariants:</strong> token count never exceeds capacity</p>
+                  <p><strong>Examples:</strong> capacity 1, rate 1/s, t=1.0 -&gt; accepted after refill</p>
+                  <p><strong>Notes:</strong> refill-before-consume interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 2</h4>
+                  <p><strong>Semantic mode:</strong> refill_first</p>
+                  <p><strong>Lean:</strong><br><code>def RateLimitSpec : Prop := <br>  refillBeforeConsume = true</code></p>
+                  <p><strong>Assumptions:</strong> token bucket has finite capacity, timestamps are monotonic</p>
+                  <p><strong>Preconditions:</strong> requests carry timestamps</p>
+                  <p><strong>Postconditions:</strong> refill is applied before the request decision, boundary-time requests can become admissible after refill</p>
+                  <p><strong>Invariants:</strong> token count never exceeds capacity</p>
+                  <p><strong>Examples:</strong> capacity 1, rate 1/s, t=1.0 -&gt; accepted after refill</p>
+                  <p><strong>Notes:</strong> refill-before-consume interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 3</h4>
+                  <p><strong>Semantic mode:</strong> consume_first</p>
+                  <p><strong>Lean:</strong><br><code>def RateLimitSpec : Prop := <br>  refillBeforeConsume = false</code></p>
+                  <p><strong>Assumptions:</strong> token bucket has finite capacity, timestamps are monotonic</p>
+                  <p><strong>Preconditions:</strong> requests carry timestamps</p>
+                  <p><strong>Postconditions:</strong> consume is evaluated before refill at the same instant, boundary-time requests can still be rejected</p>
+                  <p><strong>Invariants:</strong> token count never exceeds capacity</p>
+                  <p><strong>Examples:</strong> capacity 1, rate 1/s, t=1.0 -&gt; rejected before refill</p>
+                  <p><strong>Notes:</strong> consume-before-refill interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 1</h4>
+                  <p><strong>Semantic mode:</strong> consume_first</p>
+                  <p><strong>Lean:</strong><br><code>def RateLimitSpec : Prop := <br>  refillBeforeConsume = false</code></p>
+                  <p><strong>Assumptions:</strong> token bucket has finite capacity, timestamps are monotonic</p>
+                  <p><strong>Preconditions:</strong> requests carry timestamps</p>
+                  <p><strong>Postconditions:</strong> consume is evaluated before refill at the same instant, boundary-time requests can still be rejected</p>
+                  <p><strong>Invariants:</strong> token count never exceeds capacity</p>
+                  <p><strong>Examples:</strong> capacity 1, rate 1/s, t=1.0 -&gt; rejected before refill</p>
+                  <p><strong>Notes:</strong> consume-before-refill interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 2</h4>
+                  <p><strong>Semantic mode:</strong> refill_first</p>
+                  <p><strong>Lean:</strong><br><code>def RateLimitSpec : Prop := <br>  refillBeforeConsume = true</code></p>
+                  <p><strong>Assumptions:</strong> token bucket has finite capacity, timestamps are monotonic</p>
+                  <p><strong>Preconditions:</strong> requests carry timestamps</p>
+                  <p><strong>Postconditions:</strong> refill is applied before the request decision, boundary-time requests can become admissible after refill</p>
+                  <p><strong>Invariants:</strong> token count never exceeds capacity</p>
+                  <p><strong>Examples:</strong> capacity 1, rate 1/s, t=1.0 -&gt; accepted after refill</p>
+                  <p><strong>Notes:</strong> refill-before-consume interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 3</h4>
+                  <p><strong>Semantic mode:</strong> consume_first</p>
+                  <p><strong>Lean:</strong><br><code>def RateLimitSpec : Prop := <br>  refillBeforeConsume = false</code></p>
+                  <p><strong>Assumptions:</strong> token bucket has finite capacity, timestamps are monotonic</p>
+                  <p><strong>Preconditions:</strong> requests carry timestamps</p>
+                  <p><strong>Postconditions:</strong> consume is evaluated before refill at the same instant, boundary-time requests can still be rejected</p>
+                  <p><strong>Invariants:</strong> token count never exceeds capacity</p>
+                  <p><strong>Examples:</strong> capacity 1, rate 1/s, t=1.0 -&gt; rejected before refill</p>
+                  <p><strong>Notes:</strong> consume-before-refill interpretation</p>
+                </div>
+                </div>
+              <h3>Pairwise disagreement summary</h3>
+              <table>
+                <thead><tr><th>Left</th><th>Right</th><th>Score</th><th>Left mode</th><th>Right mode</th><th>Counterexample</th></tr></thead>
+                <tbody><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 1</td><td>13</td><td>refill_first</td><td>consume_first</td><td>A boundary-timestamp request distinguishes refill-before-consume from consume-before-refill.</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 3</td><td>13</td><td>refill_first</td><td>consume_first</td><td>A boundary-timestamp request distinguishes refill-before-consume from consume-before-refill.</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 1</td><td>13</td><td>refill_first</td><td>consume_first</td><td>A boundary-timestamp request distinguishes refill-before-consume from consume-before-refill.</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 3</td><td>13</td><td>refill_first</td><td>consume_first</td><td>A boundary-timestamp request distinguishes refill-before-consume from consume-before-refill.</td></tr><tr><td>gpt-4o 3</td><td>gpt-3.5-turbo 2</td><td>13</td><td>consume_first</td><td>refill_first</td><td>A boundary-timestamp request distinguishes refill-before-consume from consume-before-refill.</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 2</td><td>0</td><td>refill_first</td><td>refill_first</td><td>No counterexample</td></tr></tbody>
+              </table>
+              <h3>Best counterexample</h3>
+              
+            <pre>{
+  &quot;capacity&quot;: 1,
+  &quot;refill_rate_per_second&quot;: 1,
+  &quot;events&quot;: [
+    {
+      &quot;time&quot;: 0.0,
+      &quot;request&quot;: 1
+    },
+    {
+      &quot;time&quot;: 1.0,
+      &quot;request&quot;: 1
+    }
+  ],
+  &quot;boundary_decision&quot;: &quot;accept_second_request&quot;
+}</pre>
+            <p><strong>Explanation:</strong> The refill-first interpretation credits the refill before evaluating the second request, while the consume-first interpretation rejects it before refill is applied.</p>
+            <p><strong>Accepted by left:</strong> true | <strong>Accepted by right:</strong> false</p>
+            
+            </section>
+            
+            <section class="task-section">
+              <h2>Token Expiry Semantics</h2>
+              <p>Validate whether a token is valid exactly at the expiry timestamp.</p>
+              <div class="grid">
+                <div class="card">
+                  <h4>gpt-4o sample 1</h4>
+                  <p><strong>Semantic mode:</strong> inclusive</p>
+                  <p><strong>Lean:</strong><br><code>def ExpirySpec : Prop := <br>  isValid now expiry := now &lt;= expiry</code></p>
+                  <p><strong>Assumptions:</strong> clock values are comparable, revocation is out of scope</p>
+                  <p><strong>Preconditions:</strong> token has issue and expiry timestamps</p>
+                  <p><strong>Postconditions:</strong> a token is valid at the exact expiry instant, boundary is inclusive</p>
+                  <p><strong>Invariants:</strong> expiry does not move backwards</p>
+                  <p><strong>Examples:</strong> now = expiry -&gt; accepted</p>
+                  <p><strong>Notes:</strong> inclusive expiry interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 2</h4>
+                  <p><strong>Semantic mode:</strong> inclusive</p>
+                  <p><strong>Lean:</strong><br><code>def ExpirySpec : Prop := <br>  isValid now expiry := now &lt;= expiry</code></p>
+                  <p><strong>Assumptions:</strong> clock values are comparable, revocation is out of scope</p>
+                  <p><strong>Preconditions:</strong> token has issue and expiry timestamps</p>
+                  <p><strong>Postconditions:</strong> a token is valid at the exact expiry instant, boundary is inclusive</p>
+                  <p><strong>Invariants:</strong> expiry does not move backwards</p>
+                  <p><strong>Examples:</strong> now = expiry -&gt; accepted</p>
+                  <p><strong>Notes:</strong> inclusive expiry interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 3</h4>
+                  <p><strong>Semantic mode:</strong> exclusive</p>
+                  <p><strong>Lean:</strong><br><code>def ExpirySpec : Prop := <br>  isValid now expiry := now &lt; expiry</code></p>
+                  <p><strong>Assumptions:</strong> clock values are comparable, revocation is out of scope</p>
+                  <p><strong>Preconditions:</strong> token has issue and expiry timestamps</p>
+                  <p><strong>Postconditions:</strong> a token is invalid at the exact expiry instant, boundary is exclusive</p>
+                  <p><strong>Invariants:</strong> expiry does not move backwards</p>
+                  <p><strong>Examples:</strong> now = expiry -&gt; rejected</p>
+                  <p><strong>Notes:</strong> exclusive expiry interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 1</h4>
+                  <p><strong>Semantic mode:</strong> exclusive</p>
+                  <p><strong>Lean:</strong><br><code>def ExpirySpec : Prop := <br>  isValid now expiry := now &lt; expiry</code></p>
+                  <p><strong>Assumptions:</strong> clock values are comparable, revocation is out of scope</p>
+                  <p><strong>Preconditions:</strong> token has issue and expiry timestamps</p>
+                  <p><strong>Postconditions:</strong> a token is invalid at the exact expiry instant, boundary is exclusive</p>
+                  <p><strong>Invariants:</strong> expiry does not move backwards</p>
+                  <p><strong>Examples:</strong> now = expiry -&gt; rejected</p>
+                  <p><strong>Notes:</strong> exclusive expiry interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 2</h4>
+                  <p><strong>Semantic mode:</strong> inclusive</p>
+                  <p><strong>Lean:</strong><br><code>def ExpirySpec : Prop := <br>  isValid now expiry := now &lt;= expiry</code></p>
+                  <p><strong>Assumptions:</strong> clock values are comparable, revocation is out of scope</p>
+                  <p><strong>Preconditions:</strong> token has issue and expiry timestamps</p>
+                  <p><strong>Postconditions:</strong> a token is valid at the exact expiry instant, boundary is inclusive</p>
+                  <p><strong>Invariants:</strong> expiry does not move backwards</p>
+                  <p><strong>Examples:</strong> now = expiry -&gt; accepted</p>
+                  <p><strong>Notes:</strong> inclusive expiry interpretation</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 3</h4>
+                  <p><strong>Semantic mode:</strong> exclusive</p>
+                  <p><strong>Lean:</strong><br><code>def ExpirySpec : Prop := <br>  isValid now expiry := now &lt; expiry</code></p>
+                  <p><strong>Assumptions:</strong> clock values are comparable, revocation is out of scope</p>
+                  <p><strong>Preconditions:</strong> token has issue and expiry timestamps</p>
+                  <p><strong>Postconditions:</strong> a token is invalid at the exact expiry instant, boundary is exclusive</p>
+                  <p><strong>Invariants:</strong> expiry does not move backwards</p>
+                  <p><strong>Examples:</strong> now = expiry -&gt; rejected</p>
+                  <p><strong>Notes:</strong> exclusive expiry interpretation</p>
+                </div>
+                </div>
+              <h3>Pairwise disagreement summary</h3>
+              <table>
+                <thead><tr><th>Left</th><th>Right</th><th>Score</th><th>Left mode</th><th>Right mode</th><th>Counterexample</th></tr></thead>
+                <tbody><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 1</td><td>13</td><td>inclusive</td><td>exclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 3</td><td>13</td><td>inclusive</td><td>exclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 1</td><td>13</td><td>inclusive</td><td>exclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 3</td><td>13</td><td>inclusive</td><td>exclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr><tr><td>gpt-4o 3</td><td>gpt-3.5-turbo 2</td><td>13</td><td>exclusive</td><td>inclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 2</td><td>0</td><td>inclusive</td><td>inclusive</td><td>No counterexample</td></tr></tbody>
+              </table>
+              <h3>Best counterexample</h3>
+              
+            <pre>{
+  &quot;issue_time&quot;: 100,
+  &quot;expiry_time&quot;: 200,
+  &quot;now&quot;: 200
+}</pre>
+            <p><strong>Explanation:</strong> The inclusive interpretation accepts a token at the exact expiry instant, while the exclusive interpretation rejects it.</p>
+            <p><strong>Accepted by left:</strong> true | <strong>Accepted by right:</strong> false</p>
+            
+            </section>
+            
+  </main>
+</body>
+</html>

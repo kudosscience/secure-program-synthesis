@@ -1,0 +1,515 @@
+[
+  {
+    "assumptions": [
+      "elements are comparable",
+      "values may repeat"
+    ],
+    "examples": [
+      "[(1,'a'), (1,'b')] -> [(1,'a'), (1,'b')]",
+      "duplicates preserve order"
+    ],
+    "invariants": [
+      "multiset preserved"
+    ],
+    "lean": "def SortedSpec : Prop := \n  forall xs ys, SortedOutput xs ys -> Nondecreasing ys \u2227 Permutation xs ys \u2227 StableEqualOrder xs ys",
+    "model": "gpt-4o",
+    "notes": [
+      "stable sorting interpretation"
+    ],
+    "postconditions": [
+      "output is nondecreasing",
+      "output is a permutation",
+      "equal elements keep their input order"
+    ],
+    "preconditions": [
+      "input is a finite list"
+    ],
+    "sample_index": 1,
+    "semantic_mode": "stable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "elements are comparable",
+      "values may repeat"
+    ],
+    "examples": [
+      "[(1,'a'), (1,'b')] -> [(1,'a'), (1,'b')]",
+      "duplicates preserve order"
+    ],
+    "invariants": [
+      "multiset preserved"
+    ],
+    "lean": "def SortedSpec : Prop := \n  forall xs ys, SortedOutput xs ys -> Nondecreasing ys \u2227 Permutation xs ys \u2227 StableEqualOrder xs ys",
+    "model": "gpt-4o",
+    "notes": [
+      "stable sorting interpretation"
+    ],
+    "postconditions": [
+      "output is nondecreasing",
+      "output is a permutation",
+      "equal elements keep their input order"
+    ],
+    "preconditions": [
+      "input is a finite list"
+    ],
+    "sample_index": 2,
+    "semantic_mode": "stable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "elements are comparable",
+      "values may repeat"
+    ],
+    "examples": [
+      "[(1,'a'), (1,'b')] -> [(1,'b'), (1,'a')]",
+      "stability not required"
+    ],
+    "invariants": [
+      "multiset preserved"
+    ],
+    "lean": "def SortedSpec : Prop := \n  forall xs ys, SortedOutput xs ys -> Nondecreasing ys \u2227 Permutation xs ys",
+    "model": "gpt-4o",
+    "notes": [
+      "unstable sorting interpretation"
+    ],
+    "postconditions": [
+      "output is nondecreasing",
+      "output is a permutation"
+    ],
+    "preconditions": [
+      "input is a finite list"
+    ],
+    "sample_index": 3,
+    "semantic_mode": "unstable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "elements are comparable",
+      "values may repeat"
+    ],
+    "examples": [
+      "[(1,'a'), (1,'b')] -> [(1,'b'), (1,'a')]",
+      "stability not required"
+    ],
+    "invariants": [
+      "multiset preserved"
+    ],
+    "lean": "def SortedSpec : Prop := \n  forall xs ys, SortedOutput xs ys -> Nondecreasing ys \u2227 Permutation xs ys",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "unstable sorting interpretation"
+    ],
+    "postconditions": [
+      "output is nondecreasing",
+      "output is a permutation"
+    ],
+    "preconditions": [
+      "input is a finite list"
+    ],
+    "sample_index": 1,
+    "semantic_mode": "unstable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "elements are comparable",
+      "values may repeat"
+    ],
+    "examples": [
+      "[(1,'a'), (1,'b')] -> [(1,'a'), (1,'b')]",
+      "duplicates preserve order"
+    ],
+    "invariants": [
+      "multiset preserved"
+    ],
+    "lean": "def SortedSpec : Prop := \n  forall xs ys, SortedOutput xs ys -> Nondecreasing ys \u2227 Permutation xs ys \u2227 StableEqualOrder xs ys",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "stable sorting interpretation"
+    ],
+    "postconditions": [
+      "output is nondecreasing",
+      "output is a permutation",
+      "equal elements keep their input order"
+    ],
+    "preconditions": [
+      "input is a finite list"
+    ],
+    "sample_index": 2,
+    "semantic_mode": "stable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "elements are comparable",
+      "values may repeat"
+    ],
+    "examples": [
+      "[(1,'a'), (1,'b')] -> [(1,'b'), (1,'a')]",
+      "stability not required"
+    ],
+    "invariants": [
+      "multiset preserved"
+    ],
+    "lean": "def SortedSpec : Prop := \n  forall xs ys, SortedOutput xs ys -> Nondecreasing ys \u2227 Permutation xs ys",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "unstable sorting interpretation"
+    ],
+    "postconditions": [
+      "output is nondecreasing",
+      "output is a permutation"
+    ],
+    "preconditions": [
+      "input is a finite list"
+    ],
+    "sample_index": 3,
+    "semantic_mode": "unstable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "token bucket has finite capacity",
+      "timestamps are monotonic"
+    ],
+    "examples": [
+      "capacity 1, rate 1/s, t=1.0 -> accepted after refill"
+    ],
+    "invariants": [
+      "token count never exceeds capacity"
+    ],
+    "lean": "def RateLimitSpec : Prop := \n  refillBeforeConsume = true",
+    "model": "gpt-4o",
+    "notes": [
+      "refill-before-consume interpretation"
+    ],
+    "postconditions": [
+      "refill is applied before the request decision",
+      "boundary-time requests can become admissible after refill"
+    ],
+    "preconditions": [
+      "requests carry timestamps"
+    ],
+    "sample_index": 1,
+    "semantic_mode": "refill_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "token bucket has finite capacity",
+      "timestamps are monotonic"
+    ],
+    "examples": [
+      "capacity 1, rate 1/s, t=1.0 -> accepted after refill"
+    ],
+    "invariants": [
+      "token count never exceeds capacity"
+    ],
+    "lean": "def RateLimitSpec : Prop := \n  refillBeforeConsume = true",
+    "model": "gpt-4o",
+    "notes": [
+      "refill-before-consume interpretation"
+    ],
+    "postconditions": [
+      "refill is applied before the request decision",
+      "boundary-time requests can become admissible after refill"
+    ],
+    "preconditions": [
+      "requests carry timestamps"
+    ],
+    "sample_index": 2,
+    "semantic_mode": "refill_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "token bucket has finite capacity",
+      "timestamps are monotonic"
+    ],
+    "examples": [
+      "capacity 1, rate 1/s, t=1.0 -> rejected before refill"
+    ],
+    "invariants": [
+      "token count never exceeds capacity"
+    ],
+    "lean": "def RateLimitSpec : Prop := \n  refillBeforeConsume = false",
+    "model": "gpt-4o",
+    "notes": [
+      "consume-before-refill interpretation"
+    ],
+    "postconditions": [
+      "consume is evaluated before refill at the same instant",
+      "boundary-time requests can still be rejected"
+    ],
+    "preconditions": [
+      "requests carry timestamps"
+    ],
+    "sample_index": 3,
+    "semantic_mode": "consume_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "token bucket has finite capacity",
+      "timestamps are monotonic"
+    ],
+    "examples": [
+      "capacity 1, rate 1/s, t=1.0 -> rejected before refill"
+    ],
+    "invariants": [
+      "token count never exceeds capacity"
+    ],
+    "lean": "def RateLimitSpec : Prop := \n  refillBeforeConsume = false",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "consume-before-refill interpretation"
+    ],
+    "postconditions": [
+      "consume is evaluated before refill at the same instant",
+      "boundary-time requests can still be rejected"
+    ],
+    "preconditions": [
+      "requests carry timestamps"
+    ],
+    "sample_index": 1,
+    "semantic_mode": "consume_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "token bucket has finite capacity",
+      "timestamps are monotonic"
+    ],
+    "examples": [
+      "capacity 1, rate 1/s, t=1.0 -> accepted after refill"
+    ],
+    "invariants": [
+      "token count never exceeds capacity"
+    ],
+    "lean": "def RateLimitSpec : Prop := \n  refillBeforeConsume = true",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "refill-before-consume interpretation"
+    ],
+    "postconditions": [
+      "refill is applied before the request decision",
+      "boundary-time requests can become admissible after refill"
+    ],
+    "preconditions": [
+      "requests carry timestamps"
+    ],
+    "sample_index": 2,
+    "semantic_mode": "refill_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "token bucket has finite capacity",
+      "timestamps are monotonic"
+    ],
+    "examples": [
+      "capacity 1, rate 1/s, t=1.0 -> rejected before refill"
+    ],
+    "invariants": [
+      "token count never exceeds capacity"
+    ],
+    "lean": "def RateLimitSpec : Prop := \n  refillBeforeConsume = false",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "consume-before-refill interpretation"
+    ],
+    "postconditions": [
+      "consume is evaluated before refill at the same instant",
+      "boundary-time requests can still be rejected"
+    ],
+    "preconditions": [
+      "requests carry timestamps"
+    ],
+    "sample_index": 3,
+    "semantic_mode": "consume_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "clock values are comparable",
+      "revocation is out of scope"
+    ],
+    "examples": [
+      "now = expiry -> accepted"
+    ],
+    "invariants": [
+      "expiry does not move backwards"
+    ],
+    "lean": "def ExpirySpec : Prop := \n  isValid now expiry := now <= expiry",
+    "model": "gpt-4o",
+    "notes": [
+      "inclusive expiry interpretation"
+    ],
+    "postconditions": [
+      "a token is valid at the exact expiry instant",
+      "boundary is inclusive"
+    ],
+    "preconditions": [
+      "token has issue and expiry timestamps"
+    ],
+    "sample_index": 1,
+    "semantic_mode": "inclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  },
+  {
+    "assumptions": [
+      "clock values are comparable",
+      "revocation is out of scope"
+    ],
+    "examples": [
+      "now = expiry -> accepted"
+    ],
+    "invariants": [
+      "expiry does not move backwards"
+    ],
+    "lean": "def ExpirySpec : Prop := \n  isValid now expiry := now <= expiry",
+    "model": "gpt-4o",
+    "notes": [
+      "inclusive expiry interpretation"
+    ],
+    "postconditions": [
+      "a token is valid at the exact expiry instant",
+      "boundary is inclusive"
+    ],
+    "preconditions": [
+      "token has issue and expiry timestamps"
+    ],
+    "sample_index": 2,
+    "semantic_mode": "inclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  },
+  {
+    "assumptions": [
+      "clock values are comparable",
+      "revocation is out of scope"
+    ],
+    "examples": [
+      "now = expiry -> rejected"
+    ],
+    "invariants": [
+      "expiry does not move backwards"
+    ],
+    "lean": "def ExpirySpec : Prop := \n  isValid now expiry := now < expiry",
+    "model": "gpt-4o",
+    "notes": [
+      "exclusive expiry interpretation"
+    ],
+    "postconditions": [
+      "a token is invalid at the exact expiry instant",
+      "boundary is exclusive"
+    ],
+    "preconditions": [
+      "token has issue and expiry timestamps"
+    ],
+    "sample_index": 3,
+    "semantic_mode": "exclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  },
+  {
+    "assumptions": [
+      "clock values are comparable",
+      "revocation is out of scope"
+    ],
+    "examples": [
+      "now = expiry -> rejected"
+    ],
+    "invariants": [
+      "expiry does not move backwards"
+    ],
+    "lean": "def ExpirySpec : Prop := \n  isValid now expiry := now < expiry",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "exclusive expiry interpretation"
+    ],
+    "postconditions": [
+      "a token is invalid at the exact expiry instant",
+      "boundary is exclusive"
+    ],
+    "preconditions": [
+      "token has issue and expiry timestamps"
+    ],
+    "sample_index": 1,
+    "semantic_mode": "exclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  },
+  {
+    "assumptions": [
+      "clock values are comparable",
+      "revocation is out of scope"
+    ],
+    "examples": [
+      "now = expiry -> accepted"
+    ],
+    "invariants": [
+      "expiry does not move backwards"
+    ],
+    "lean": "def ExpirySpec : Prop := \n  isValid now expiry := now <= expiry",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "inclusive expiry interpretation"
+    ],
+    "postconditions": [
+      "a token is valid at the exact expiry instant",
+      "boundary is inclusive"
+    ],
+    "preconditions": [
+      "token has issue and expiry timestamps"
+    ],
+    "sample_index": 2,
+    "semantic_mode": "inclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  },
+  {
+    "assumptions": [
+      "clock values are comparable",
+      "revocation is out of scope"
+    ],
+    "examples": [
+      "now = expiry -> rejected"
+    ],
+    "invariants": [
+      "expiry does not move backwards"
+    ],
+    "lean": "def ExpirySpec : Prop := \n  isValid now expiry := now < expiry",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "exclusive expiry interpretation"
+    ],
+    "postconditions": [
+      "a token is invalid at the exact expiry instant",
+      "boundary is exclusive"
+    ],
+    "preconditions": [
+      "token has issue and expiry timestamps"
+    ],
+    "sample_index": 3,
+    "semantic_mode": "exclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  }
+]
