@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cross-Model Spec Comparison</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: #fffaf2;
+      --ink: #241b16;
+      --accent: #7c3f1d;
+      --line: #d7c6b7;
+      --soft: #6b5d50;
+    }
+    body { margin: 0; font-family: Georgia, 'Times New Roman', serif; background: linear-gradient(180deg, #fcf7f0 0%, var(--bg) 100%); color: var(--ink); }
+    main { max-width: 1200px; margin: 0 auto; padding: 32px 20px 48px; }
+    header { border-bottom: 2px solid var(--line); padding-bottom: 16px; margin-bottom: 24px; }
+    h1, h2, h3, h4 { color: var(--accent); }
+    .meta { color: var(--soft); margin-top: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; background: white; }
+    th, td { border: 1px solid var(--line); padding: 8px 10px; vertical-align: top; }
+    th { background: #efe2d4; text-align: left; }
+    .task-section { margin-top: 28px; padding-top: 8px; border-top: 1px solid var(--line); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+    .card { border: 1px solid var(--line); border-radius: 12px; padding: 12px; background: var(--panel); box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+    code, pre { background: #f6ede2; border: 1px solid #dfcdbd; border-radius: 8px; padding: 8px; overflow-x: auto; white-space: pre-wrap; }
+    pre { margin: 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Cross-Model Spec Comparison</h1>
+      <div class="meta">Generated at 2026-05-24T14:06:16+00:00 | Samples: 18</div>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <table>
+        <thead>
+          <tr><th>Task</th><th>Best pair</th><th>Score</th><th>Modes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Sortedness Property</td><td>gpt-4o vs gpt-3.5-turbo</td><td>6</td><td>stable vs stable</td></tr><tr><td>Token-Bucket Rate Limiter</td><td>gpt-4o vs gpt-3.5-turbo</td><td>6</td><td>refill_first vs refill_first</td></tr><tr><td>Token Expiry Semantics</td><td>gpt-4o vs gpt-3.5-turbo</td><td>16</td><td>exclusive vs inclusive</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    
+            <section class="task-section">
+              <h2>Sortedness Property</h2>
+              <p>Validate whether a candidate sorting specification is stable and permutation preserving.</p>
+              <div class="grid">
+                <div class="card">
+                  <h4>gpt-4o sample 1</h4>
+                  <p><strong>Semantic mode:</strong> stable</p>
+                  <p><strong>Lean:</strong><br><code>theorem stable_sort_preserves_order {α : Type} [linear_order α] (l : list α) : stable_sort l = l.sorted</code></p>
+                  <p><strong>Assumptions:</strong> α is a type with a linear order</p>
+                  <p><strong>Preconditions:</strong> l is a list of elements of type α</p>
+                  <p><strong>Postconditions:</strong> stable_sort l is a permutation of l, stable_sort l is sorted, equal elements retain their relative order</p>
+                  <p><strong>Invariants:</strong> length of l is preserved</p>
+                  <p><strong>Examples:</strong> {&#x27;input&#x27;: &#x27;[3, 1, 2, 1]&#x27;, &#x27;output&#x27;: &#x27;[1, 1, 2, 3]&#x27;}, {&#x27;input&#x27;: &#x27;[5, 3, 5, 2]&#x27;, &#x27;output&#x27;: &#x27;[2, 3, 5, 5]&#x27;}</p>
+                  <p><strong>Notes:</strong> Stability ensures that equal elements retain their original order.</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 2</h4>
+                  <p><strong>Semantic mode:</strong> stable</p>
+                  <p><strong>Lean:</strong><br><code>theorem stable_sort_preserves_order {α : Type} [linear_order α] (l : list α) : sorted (stable_sort l) ∧ permutation l (stable_sort l)</code></p>
+                  <p><strong>Assumptions:</strong> α is a type with a linear order</p>
+                  <p><strong>Preconditions:</strong> l is a list of elements of type α</p>
+                  <p><strong>Postconditions:</strong> sorted (stable_sort l), permutation l (stable_sort l)</p>
+                  <p><strong>Invariants:</strong> length l = length (stable_sort l)</p>
+                  <p><strong>Examples:</strong> stable_sort [3, 1, 2] = [1, 2, 3], stable_sort [1, 2, 2, 1] = [1, 1, 2, 2]</p>
+                  <p><strong>Notes:</strong> Stable sort maintains relative order of equal elements, Stable sort is permutation preserving</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 3</h4>
+                  <p><strong>Semantic mode:</strong> stable</p>
+                  <p><strong>Lean:</strong><br><code>theorem stable_sort_preserves_permutation {α : Type} [decidable_eq α] (l : list α) : stable_sort l ~ l</code></p>
+                  <p><strong>Assumptions:</strong> α is a type with decidable equality</p>
+                  <p><strong>Preconditions:</strong> l is a finite list of elements of type α</p>
+                  <p><strong>Postconditions:</strong> result is a permutation of l, result is sorted, equal elements retain their relative order</p>
+                  <p><strong>Invariants:</strong> length of result equals length of l</p>
+                  <p><strong>Examples:</strong> {&#x27;input&#x27;: [3, 1, 2, 1], &#x27;output&#x27;: [1, 1, 2, 3]}, {&#x27;input&#x27;: [4, 2, 2, 3], &#x27;output&#x27;: [2, 2, 3, 4]}</p>
+                  <p><strong>Notes:</strong> Stability ensures that duplicates retain their original order.</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 1</h4>
+                  <p><strong>Semantic mode:</strong> stable</p>
+                  <p><strong>Lean:</strong><br><code>theorem is_stable_sorting_specification : Sorter → Prop := λ sorter, ∀ (l : List α), is_sorted (sorter l) ∧ is_permutation l (sorter l)</code></p>
+                  <p><strong>Assumptions:</strong> Sorter is a function that takes a list and returns a sorted list</p>
+                  <p><strong>Preconditions:</strong> Input list l is finite</p>
+                  <p><strong>Postconditions:</strong> The output list is sorted, The output list is a permutation of the input list</p>
+                  <p><strong>Invariants:</strong> Order of equal elements is preserved, Duplicates in the input list are preserved</p>
+                  <p><strong>Examples:</strong> [3, 1, 2] → [1, 2, 3], [5, 2, 5, 1] → [1, 2, 5, 5]</p>
+                  <p><strong>Notes:</strong> Stable sorting maintains the relative order of equal elements, Permutation preserving ensures no elements are lost or added</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 2</h4>
+                  <p><strong>Semantic mode:</strong> stable</p>
+                  <p><strong>Lean:</strong><br><code>def is_sorted {α : Type} [preorder α] : list α → Prop := sorted (≤)</code></p>
+                  <p><strong>Assumptions:</strong> α is a type, [preorder α] is a preorder on α</p>
+                  <p><strong>Preconditions:</strong> input list is of type α</p>
+                  <p><strong>Postconditions:</strong> output list is a permutation of the input list, output list is sorted in non-decreasing order</p>
+                  <p><strong>Invariants:</strong> sortedness property is maintained throughout the sorting process</p>
+                  <p><strong>Examples:</strong> [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5] -&gt; [1, 1, 2, 3, 3, 4, 5, 5, 5, 6, 9]</p>
+                  <p><strong>Notes:</strong> This specification guarantees that the sorting algorithm preserves the relative order of equal elements, The output list contains all elements of the input list without any additions or removals</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 3</h4>
+                  <p><strong>Semantic mode:</strong> stable</p>
+                  <p><strong>Lean:</strong><br><code>theorem sorting_spec_stable_permutation_preserving : ∀ (s : List α), is_sorted s → is_stable_sorting_spec s</code></p>
+                  <p><strong>Assumptions:</strong> α : Type*, is_sorted : List α → Prop, is_stable_sorting_spec : List α → Prop</p>
+                  <p><strong>Preconditions:</strong> s is a list of elements of type α</p>
+                  <p><strong>Postconditions:</strong> The sorting specification is stable and permutation preserving</p>
+                  <p><strong>Invariants:</strong> The relative order of equal elements is preserved</p>
+                  <p><strong>Examples:</strong> [3, 1, 2, 1] -&gt; [1, 1, 2, 3], [5, 4, 3, 2, 1] -&gt; [1, 2, 3, 4, 5]</p>
+                  <p><strong>Notes:</strong> Stable sorting ensures that equal elements maintain their relative order, Permutation preserving guarantees that the output is a permutation of the input</p>
+                </div>
+                </div>
+              <h3>Pairwise disagreement summary</h3>
+              <table>
+                <thead><tr><th>Left</th><th>Right</th><th>Score</th><th>Left mode</th><th>Right mode</th><th>Counterexample</th></tr></thead>
+                <tbody><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 1</td><td>6</td><td>stable</td><td>stable</td><td>No counterexample</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 2</td><td>6</td><td>stable</td><td>stable</td><td>No counterexample</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 3</td><td>6</td><td>stable</td><td>stable</td><td>No counterexample</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 1</td><td>6</td><td>stable</td><td>stable</td><td>No counterexample</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 2</td><td>6</td><td>stable</td><td>stable</td><td>No counterexample</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 3</td><td>6</td><td>stable</td><td>stable</td><td>No counterexample</td></tr></tbody>
+              </table>
+              <h3>Best counterexample</h3>
+              <p>No counterexample found.</p>
+            </section>
+            
+            <section class="task-section">
+              <h2>Token-Bucket Rate Limiter</h2>
+              <p>Validate whether refill is applied before or after a request at the same timestamp boundary.</p>
+              <div class="grid">
+                <div class="card">
+                  <h4>gpt-4o sample 1</h4>
+                  <p><strong>Semantic mode:</strong> refill_first</p>
+                  <p><strong>Lean:</strong><br><code>theorem refill_before_consume (t: Time) (b: Bucket): refill t b -&gt; consume t b</code></p>
+                  <p><strong>Assumptions:</strong> Time is discrete, Refill and consume can occur at the same timestamp</p>
+                  <p><strong>Preconditions:</strong> Bucket is not full, Request arrives at refill time</p>
+                  <p><strong>Postconditions:</strong> Tokens are refilled before consumption, Request is processed if tokens are sufficient after refill</p>
+                  <p><strong>Invariants:</strong> Bucket capacity is constant, Tokens never exceed capacity</p>
+                  <p><strong>Examples:</strong> {&#x27;timestamp&#x27;: 10, &#x27;initial_tokens&#x27;: 5, &#x27;refill_amount&#x27;: 3, &#x27;consume_amount&#x27;: 6, &#x27;result&#x27;: &#x27;Request processed&#x27;}, {&#x27;timestamp&#x27;: 10, &#x27;initial_tokens&#x27;: 2, &#x27;refill_amount&#x27;: 3, &#x27;consume_amount&#x27;: 6, &#x27;result&#x27;: &#x27;Request denied&#x27;}</p>
+                  <p><strong>Notes:</strong> Refill occurs before any consumption at the same timestamp, Ensures maximum token availability for requests</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 2</h4>
+                  <p><strong>Semantic mode:</strong> refill_first</p>
+                  <p><strong>Lean:</strong><br><code>theorem refill_before_consume (t: Time) (b: Bucket): refill t b -&gt; consume t b -&gt; ∀ t&#x27;, t&#x27; = t -&gt; tokens_after t&#x27; = tokens_before t&#x27; + refill_amount - consume_amount</code></p>
+                  <p><strong>Assumptions:</strong> refill and consume can occur at the same timestamp, bucket has a maximum capacity, refill amount does not exceed capacity</p>
+                  <p><strong>Preconditions:</strong> bucket is initialized, timestamp t is valid, refill and consume amounts are defined</p>
+                  <p><strong>Postconditions:</strong> tokens_after = min(capacity, tokens_before + refill_amount) - consume_amount, tokens_after &gt;= 0</p>
+                  <p><strong>Invariants:</strong> 0 &lt;= tokens &lt;= capacity</p>
+                  <p><strong>Examples:</strong> {&#x27;initial_tokens&#x27;: 5, &#x27;capacity&#x27;: 10, &#x27;refill_amount&#x27;: 3, &#x27;consume_amount&#x27;: 4, &#x27;tokens_after&#x27;: 4}, {&#x27;initial_tokens&#x27;: 8, &#x27;capacity&#x27;: 10, &#x27;refill_amount&#x27;: 5, &#x27;consume_amount&#x27;: 2, &#x27;tokens_after&#x27;: 10}</p>
+                  <p><strong>Notes:</strong> Refill is applied before consumption at the same timestamp., Ensure tokens do not exceed capacity after refill.</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 3</h4>
+                  <p><strong>Semantic mode:</strong> refill_first</p>
+                  <p><strong>Lean:</strong><br><code>theorem refill_before_consume (t: Time) (tokens: Nat): tokens_after_refill = min (tokens + refill_rate) capacity → tokens_after_consume = tokens_after_refill - request_size</code></p>
+                  <p><strong>Assumptions:</strong> refill_rate is constant, capacity is constant, request_size is constant</p>
+                  <p><strong>Preconditions:</strong> tokens &gt;= 0, tokens &lt;= capacity, request_size &lt;= tokens</p>
+                  <p><strong>Postconditions:</strong> tokens_after_consume &gt;= 0, tokens_after_consume &lt;= capacity</p>
+                  <p><strong>Invariants:</strong> tokens never exceed capacity, tokens never drop below zero</p>
+                  <p><strong>Examples:</strong> {&#x27;initial_tokens&#x27;: 5, &#x27;refill_rate&#x27;: 3, &#x27;capacity&#x27;: 10, &#x27;request_size&#x27;: 4, &#x27;tokens_after_refill&#x27;: 8, &#x27;tokens_after_consume&#x27;: 4}, {&#x27;initial_tokens&#x27;: 9, &#x27;refill_rate&#x27;: 2, &#x27;capacity&#x27;: 10, &#x27;request_size&#x27;: 5, &#x27;tokens_after_refill&#x27;: 10, &#x27;tokens_after_consume&#x27;: 5}</p>
+                  <p><strong>Notes:</strong> Refill happens before consumption at the same timestamp., Ensures maximum token utilization.</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 1</h4>
+                  <p><strong>Semantic mode:</strong> refill_first</p>
+                  <p><strong>Lean:</strong><br><code>theorem token_bucket_refill_first { ... }</code></p>
+                  <p><strong>Assumptions:</strong> Token bucket with capacity C and refill rate R, Refill and consume operations are atomic</p>
+                  <p><strong>Preconditions:</strong> Token bucket initialized with tokens less than or equal to capacity</p>
+                  <p><strong>Postconditions:</strong> Tokens are refilled before any consume operation at the same timestamp</p>
+                  <p><strong>Invariants:</strong> Tokens in the bucket never exceed the capacity C</p>
+                  <p><strong>Examples:</strong> Initial tokens: 5, Capacity: 10, Refill rate: 2, Consume 3 tokens -&gt; Tokens: 4, Initial tokens: 8, Capacity: 10, Refill rate: 1, Consume 2 tokens -&gt; Tokens: 7</p>
+                  <p><strong>Notes:</strong> Ensures that tokens are available for consumption immediately after refill</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 2</h4>
+                  <p><strong>Semantic mode:</strong> refill_first</p>
+                  <p><strong>Lean:</strong><br><code>theorem token_bucket_refill_first { ... }</code></p>
+                  <p><strong>Assumptions:</strong> Token bucket with capacity C and refill rate R, Refill and consume operations are atomic</p>
+                  <p><strong>Preconditions:</strong> Token bucket initialized with tokens less than or equal to capacity C</p>
+                  <p><strong>Postconditions:</strong> Tokens are refilled before any tokens are consumed at the same timestamp</p>
+                  <p><strong>Invariants:</strong> Token bucket never exceeds capacity C</p>
+                  <p><strong>Examples:</strong> Initial tokens: 5, capacity: 10, refill rate: 2, consume 3 tokens -&gt; 4 tokens remaining</p>
+                  <p><strong>Notes:</strong> Ensures that tokens are available for consumption immediately after refill</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 3</h4>
+                  <p><strong>Semantic mode:</strong> refill_first</p>
+                  <p><strong>Lean:</strong><br><code>theorem token_bucket_refill_first { ... }</code></p>
+                  <p><strong>Assumptions:</strong> Token bucket has a maximum capacity, Refill rate is constant</p>
+                  <p><strong>Preconditions:</strong> Token bucket is initialized with tokens, Refill and consume operations are defined</p>
+                  <p><strong>Postconditions:</strong> Tokens are refilled before any consume operation</p>
+                  <p><strong>Invariants:</strong> Token bucket capacity is never exceeded</p>
+                  <p><strong>Examples:</strong> Initial tokens: 5, Refill rate: 2 tokens/sec, Consume rate: 1 token/sec, At t=0: Refill 2 tokens, Consume 1 token</p>
+                  <p><strong>Notes:</strong> Ensures tokens are available for consumption immediately after refill</p>
+                </div>
+                </div>
+              <h3>Pairwise disagreement summary</h3>
+              <table>
+                <thead><tr><th>Left</th><th>Right</th><th>Score</th><th>Left mode</th><th>Right mode</th><th>Counterexample</th></tr></thead>
+                <tbody><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 1</td><td>6</td><td>refill_first</td><td>refill_first</td><td>No counterexample</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 2</td><td>6</td><td>refill_first</td><td>refill_first</td><td>No counterexample</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 3</td><td>6</td><td>refill_first</td><td>refill_first</td><td>No counterexample</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 1</td><td>6</td><td>refill_first</td><td>refill_first</td><td>No counterexample</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 2</td><td>6</td><td>refill_first</td><td>refill_first</td><td>No counterexample</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 3</td><td>6</td><td>refill_first</td><td>refill_first</td><td>No counterexample</td></tr></tbody>
+              </table>
+              <h3>Best counterexample</h3>
+              <p>No counterexample found.</p>
+            </section>
+            
+            <section class="task-section">
+              <h2>Token Expiry Semantics</h2>
+              <p>Validate whether a token is valid exactly at the expiry timestamp.</p>
+              <div class="grid">
+                <div class="card">
+                  <h4>gpt-4o sample 1</h4>
+                  <p><strong>Semantic mode:</strong> exclusive</p>
+                  <p><strong>Lean:</strong><br><code>theorem token_expiry_exclusive (t : Time) (expiry : Time) : ¬ valid_at t expiry ↔ t ≥ expiry</code></p>
+                  <p><strong>Assumptions:</strong> Time is a totally ordered set, valid_at t expiry checks if token is valid at time t</p>
+                  <p><strong>Preconditions:</strong> t is a valid time, expiry is a valid time</p>
+                  <p><strong>Postconditions:</strong> Token is invalid at time t if t is equal to or greater than expiry</p>
+                  <p><strong>Invariants:</strong> Token validity is consistent across time checks</p>
+                  <p><strong>Examples:</strong> {&#x27;t&#x27;: &#x27;10:00&#x27;, &#x27;expiry&#x27;: &#x27;10:00&#x27;, &#x27;valid&#x27;: False}, {&#x27;t&#x27;: &#x27;09:59&#x27;, &#x27;expiry&#x27;: &#x27;10:00&#x27;, &#x27;valid&#x27;: True}</p>
+                  <p><strong>Notes:</strong> This specification assumes exclusive expiry semantics., Boundary condition at expiry time results in invalid token.</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 2</h4>
+                  <p><strong>Semantic mode:</strong> exclusive</p>
+                  <p><strong>Lean:</strong><br><code>theorem token_expiry_exclusive (t : Time) (expiry : Time) : ¬ valid_at t expiry ↔ t ≥ expiry</code></p>
+                  <p><strong>Assumptions:</strong> Time is a totally ordered set, valid_at t expiry checks token validity at time t</p>
+                  <p><strong>Preconditions:</strong> t is a valid time, expiry is a valid time</p>
+                  <p><strong>Postconditions:</strong> Token is invalid if t is equal to or greater than expiry</p>
+                  <p><strong>Invariants:</strong> Time progresses linearly, No backward time jumps</p>
+                  <p><strong>Examples:</strong> valid_at 10 10 = false, valid_at 9 10 = true</p>
+                  <p><strong>Notes:</strong> Exclusive semantics mean token is invalid at the exact expiry time</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-4o sample 3</h4>
+                  <p><strong>Semantic mode:</strong> exclusive</p>
+                  <p><strong>Lean:</strong><br><code>theorem token_expiry_exclusive (t : Time) (expiry : Time) : ¬ valid_at t expiry ↔ t ≥ expiry</code></p>
+                  <p><strong>Assumptions:</strong> Time is a totally ordered set, valid_at t expiry checks token validity at time t</p>
+                  <p><strong>Preconditions:</strong> t is a valid time, expiry is a valid time</p>
+                  <p><strong>Postconditions:</strong> Token is invalid at time t if t is equal to or greater than expiry</p>
+                  <p><strong>Invariants:</strong> Token validity is checked against a fixed expiry time</p>
+                  <p><strong>Examples:</strong> valid_at 10 10 = false, valid_at 9 10 = true</p>
+                  <p><strong>Notes:</strong> Expiry is exclusive, token is invalid at the exact expiry time</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 1</h4>
+                  <p><strong>Semantic mode:</strong> inclusive</p>
+                  <p><strong>Lean:</strong><br><code>def token_valid_at_expiry (token : Token) : Prop := token.expiry &lt;= current_time</code></p>
+                  <p><strong>Assumptions:</strong> token: Token - the token to be validated, current_time: Time - the current time when validation is performed</p>
+                  <p><strong>Preconditions:</strong> token.valid = true, token.expiry &gt;= current_time</p>
+                  <p><strong>Postconditions:</strong> Returns true if and only if the token is valid at the exact expiry timestamp</p>
+                  <p><strong>Invariants:</strong> The token remains valid until the exact expiry timestamp inclusive</p>
+                  <p><strong>Examples:</strong> Token expires at 10:00:00, current time is 10:00:00 - token_valid_at_expiry(token) = true, Token expires at 10:00:00, current time is 10:00:01 - token_valid_at_expiry(token) = false</p>
+                  <p><strong>Notes:</strong> This specification considers the token to be valid at the exact expiry timestamp</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 2</h4>
+                  <p><strong>Semantic mode:</strong> inclusive</p>
+                  <p><strong>Lean:</strong><br><code>def validTokenAtExpiry (token : Token) : Prop := token.isValid &amp;&amp; token.expiryTime &lt;= currentTime</code></p>
+                  <p><strong>Assumptions:</strong> token.isValid is a Boolean indicating if the token is currently valid, token.expiryTime is a timestamp indicating the expiry time of the token, currentTime is the current timestamp</p>
+                  <p><strong>Preconditions:</strong> token.isValid == true</p>
+                  <p><strong>Postconditions:</strong> The token is considered valid exactly at its expiry timestamp</p>
+                  <p><strong>Invariants:</strong> The token remains valid until its expiry time inclusive</p>
+                  <p><strong>Examples:</strong> Example 1: Token expires at 10:00:00, currentTime is 10:00:00, token.isValid == true, Example 2: Token expires at 10:00:00, currentTime is 10:00:01, token.isValid == false</p>
+                  <p><strong>Notes:</strong> This specification considers the token to be valid at the exact moment of its expiry, The expiry time is inclusive in determining the validity of the token</p>
+                </div>
+                
+                <div class="card">
+                  <h4>gpt-3.5-turbo sample 3</h4>
+                  <p><strong>Semantic mode:</strong> inclusive</p>
+                  <p><strong>Lean:</strong><br><code>def token_valid_at_expiry (token : Token) : Prop := token.expiry ≤ current_time</code></p>
+                  <p><strong>Assumptions:</strong> Token has an expiry timestamp, Current time is available</p>
+                  <p><strong>Preconditions:</strong> Token is valid</p>
+                  <p><strong>Postconditions:</strong> Token is considered valid exactly at the expiry timestamp</p>
+                  <p><strong>Invariants:</strong> Token remains valid until the expiry timestamp</p>
+                  <p><strong>Examples:</strong> Token expires at 10:00:00, current time is 10:00:00 =&gt; token_valid_at_expiry(token) is true, Token expires at 10:00:00, current time is 10:00:01 =&gt; token_valid_at_expiry(token) is false</p>
+                  <p><strong>Notes:</strong> The token is considered valid at the exact moment of expiry, Inclusive boundary semantics are used for token expiry</p>
+                </div>
+                </div>
+              <h3>Pairwise disagreement summary</h3>
+              <table>
+                <thead><tr><th>Left</th><th>Right</th><th>Score</th><th>Left mode</th><th>Right mode</th><th>Counterexample</th></tr></thead>
+                <tbody><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 1</td><td>16</td><td>exclusive</td><td>inclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 2</td><td>16</td><td>exclusive</td><td>inclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr><tr><td>gpt-4o 1</td><td>gpt-3.5-turbo 3</td><td>16</td><td>exclusive</td><td>inclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 1</td><td>16</td><td>exclusive</td><td>inclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 2</td><td>16</td><td>exclusive</td><td>inclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr><tr><td>gpt-4o 2</td><td>gpt-3.5-turbo 3</td><td>16</td><td>exclusive</td><td>inclusive</td><td>A token checked exactly at expiry distinguishes inclusive from exclusive validity.</td></tr></tbody>
+              </table>
+              <h3>Best counterexample</h3>
+              
+            <pre>{
+  &quot;issue_time&quot;: 100,
+  &quot;expiry_time&quot;: 200,
+  &quot;now&quot;: 200
+}</pre>
+            <p><strong>Explanation:</strong> The inclusive interpretation accepts a token at the exact expiry instant, while the exclusive interpretation rejects it.</p>
+            <p><strong>Accepted by left:</strong> false | <strong>Accepted by right:</strong> true</p>
+            
+            </section>
+            
+  </main>
+</body>
+</html>

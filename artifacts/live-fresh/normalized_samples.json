@@ -1,0 +1,556 @@
+[
+  {
+    "assumptions": [
+      "\u03b1 is a type with a linear order"
+    ],
+    "examples": [
+      "{'input': '[3, 1, 2]', 'output': '[1, 2, 3]'}",
+      "{'input': '[1, 2, 2, 1]', 'output': '[1, 1, 2, 2]'}"
+    ],
+    "invariants": [
+      "length of l is preserved"
+    ],
+    "lean": "theorem stable_sort_preserves_order {\u03b1 : Type} [linear_order \u03b1] (l : list \u03b1) : stable_sort l = l.sorted",
+    "model": "gpt-4o",
+    "notes": [
+      "Stability ensures that equal elements retain their original order."
+    ],
+    "postconditions": [
+      "stable_sort l is a permutation of l",
+      "stable_sort l is sorted",
+      "equal elements retain their relative order"
+    ],
+    "preconditions": [
+      "l is a list of elements of type \u03b1"
+    ],
+    "raw_text": "```json\n{\n  \"semantic_mode\": \"stable\",\n  \"lean\": \"theorem stable_sort_preserves_order {\u03b1 : Type} [linear_order \u03b1] (l : list \u03b1) : stable_sort l = l.sorted\",\n  \"assumptions\": [\"\u03b1 is a type with a linear order\"],\n  \"preconditions\": [\"l is a list of elements of type \u03b1\"],\n  \"postconditions\": [\"stable_sort l is a permutation of l\", \"stable_sort l is sorted\", \"equal elements retain their relative order\"],\n  \"invariants\": [\"length of l is preserved\"],\n  \"examples\": [\n    {\"input\": \"[3, 1, 2]\", \"output\": \"[1, 2, 3]\"},\n    {\"input\": \"[1, 2, 2, 1]\", \"output\": \"[1, 1, 2, 2]\"}\n  ],\n  \"notes\": [\"Stability ensures that equal elements retain their original order.\"]\n}\n```",
+    "sample_index": 1,
+    "semantic_mode": "stable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "\u03b1 is a type with a linear order"
+    ],
+    "examples": [
+      "{'input': [3, 1, 2], 'output': [1, 2, 3]}",
+      "{'input': [2, 1, 2], 'output': [1, 2, 2]}",
+      "{'input': [1, 1, 1], 'output': [1, 1, 1]}"
+    ],
+    "invariants": [
+      "relative order of equal elements is preserved"
+    ],
+    "lean": "theorem stable_sort_preserves_order {\u03b1 : Type} [linear_order \u03b1] (l : list \u03b1) : sorted (stable_sort l) \u2227 permutation l (stable_sort l)",
+    "model": "gpt-4o",
+    "notes": [
+      "Stability ensures duplicates retain their original order."
+    ],
+    "postconditions": [
+      "stable_sort l is sorted",
+      "stable_sort l is a permutation of l"
+    ],
+    "preconditions": [
+      "l is a finite list of elements of type \u03b1"
+    ],
+    "raw_text": "```json\n{\n  \"semantic_mode\": \"stable\",\n  \"lean\": \"theorem stable_sort_preserves_order {\u03b1 : Type} [linear_order \u03b1] (l : list \u03b1) : sorted (stable_sort l) \u2227 permutation l (stable_sort l)\",\n  \"assumptions\": [\"\u03b1 is a type with a linear order\"],\n  \"preconditions\": [\"l is a finite list of elements of type \u03b1\"],\n  \"postconditions\": [\"stable_sort l is sorted\", \"stable_sort l is a permutation of l\"],\n  \"invariants\": [\"relative order of equal elements is preserved\"],\n  \"examples\": [\n    {\"input\": [3, 1, 2], \"output\": [1, 2, 3]},\n    {\"input\": [2, 1, 2], \"output\": [1, 2, 2]},\n    {\"input\": [1, 1, 1], \"output\": [1, 1, 1]}\n  ],\n  \"notes\": [\"Stability ensures duplicates retain their original order.\"]\n}\n```",
+    "sample_index": 2,
+    "semantic_mode": "stable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "linear_order \u03b1"
+    ],
+    "examples": [
+      "stable_sort [3, 1, 2] = [1, 2, 3]",
+      "stable_sort [2, 1, 2] = [1, 2, 2]"
+    ],
+    "invariants": [
+      "length (stable_sort l) = length l"
+    ],
+    "lean": "theorem stable_sort_preserves_order {\u03b1 : Type} [linear_order \u03b1] (l : list \u03b1) : sorted (\u2264) (stable_sort l) \u2227 (\u2200 x y, x = y \u2192 index_of x l < index_of y l \u2192 index_of x (stable_sort l) < index_of y (stable_sort l))",
+    "model": "gpt-4o",
+    "notes": [
+      "Stable sort maintains relative order of equal elements",
+      "Permutation preserving: output is a permutation of input"
+    ],
+    "postconditions": [
+      "sorted (\u2264) (stable_sort l)",
+      "\u2200 x y, x = y \u2192 index_of x l < index_of y l \u2192 index_of x (stable_sort l) < index_of y (stable_sort l)"
+    ],
+    "preconditions": [
+      "l is a list of elements of type \u03b1"
+    ],
+    "raw_text": "```json\n{\n  \"semantic_mode\": \"stable\",\n  \"lean\": \"theorem stable_sort_preserves_order {\u03b1 : Type} [linear_order \u03b1] (l : list \u03b1) : sorted (\u2264) (stable_sort l) \u2227 (\u2200 x y, x = y \u2192 index_of x l < index_of y l \u2192 index_of x (stable_sort l) < index_of y (stable_sort l))\",\n  \"assumptions\": [\"linear_order \u03b1\"],\n  \"preconditions\": [\"l is a list of elements of type \u03b1\"],\n  \"postconditions\": [\"sorted (\u2264) (stable_sort l)\", \"\u2200 x y, x = y \u2192 index_of x l < index_of y l \u2192 index_of x (stable_sort l) < index_of y (stable_sort l)\"],\n  \"invariants\": [\"length (stable_sort l) = length l\"],\n  \"examples\": [\n    \"stable_sort [3, 1, 2] = [1, 2, 3]\",\n    \"stable_sort [2, 1, 2] = [1, 2, 2]\"\n  ],\n  \"notes\": [\n    \"Stable sort maintains relative order of equal elements\",\n    \"Permutation preserving: output is a permutation of input\"\n  ]\n}\n```",
+    "sample_index": 3,
+    "semantic_mode": "stable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "s is a list of elements of type \u03b1",
+      "r is a total order relation on \u03b1"
+    ],
+    "examples": [
+      "[3, 1, 2] sorted with relation (\u2264) results in [1, 2, 3]",
+      "[3, 3, 1, 2] sorted with relation (\u2264) results in [1, 2, 3, 3]"
+    ],
+    "invariants": [
+      "Stability: Equal elements do not change order",
+      "Permutation Preservation: All permutations of the input list are valid outputs"
+    ],
+    "lean": "theorem sorting_spec_stable_permutation_preserving : \u2200 (s : List \u03b1) (r : \u03b1 \u2192 \u03b1 \u2192 Bool), stable_sort r s = stable_sort r (permutations_of_list s)",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "This specification ensures that the sorting algorithm is stable and permutation preserving",
+      "The relative order of equal elements is crucial for stability"
+    ],
+    "postconditions": [
+      "The output list is a permutation of the input list",
+      "The output list is sorted according to the relation r",
+      "The relative order of equal elements is preserved"
+    ],
+    "preconditions": [
+      "s is a finite list"
+    ],
+    "raw_text": "{\n  \"semantic_mode\": \"stable\",\n  \"lean\": \"theorem sorting_spec_stable_permutation_preserving : \u2200 (s : List \u03b1) (r : \u03b1 \u2192 \u03b1 \u2192 Bool), stable_sort r s = stable_sort r (permutations_of_list s)\",\n  \"assumptions\": [\n    \"s is a list of elements of type \u03b1\",\n    \"r is a total order relation on \u03b1\"\n  ],\n  \"preconditions\": [\n    \"s is a finite list\"\n  ],\n  \"postconditions\": [\n    \"The output list is a permutation of the input list\",\n    \"The output list is sorted according to the relation r\",\n    \"The relative order of equal elements is preserved\"\n  ],\n  \"invariants\": [\n    \"Stability: Equal elements do not change order\",\n    \"Permutation Preservation: All permutations of the input list are valid outputs\"\n  ],\n  \"examples\": [\n    \"[3, 1, 2] sorted with relation (\u2264) results in [1, 2, 3]\",\n    \"[3, 3, 1, 2] sorted with relation (\u2264) results in [1, 2, 3, 3]\"\n  ],\n  \"notes\": [\n    \"This specification ensures that the sorting algorithm is stable and permutation preserving\",\n    \"The relative order of equal elements is crucial for stability\"\n  ]\n}",
+    "sample_index": 1,
+    "semantic_mode": "stable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "arr is a list of elements of type \u03b1",
+      "sorted is a function that checks if a list is sorted",
+      "permutation is a relation that checks if two lists are permutations of each other",
+      "sorting is a function that sorts a list"
+    ],
+    "examples": [
+      "[3, 1, 2] sorted to [1, 2, 3]",
+      "[5, 5, 2, 1] sorted to [1, 2, 5, 5]"
+    ],
+    "invariants": [
+      "sorting is stable",
+      "sorting is permutation preserving"
+    ],
+    "lean": "theorem sorting_spec_stable: \u2200 (arr : List \u03b1), sorted (sorting arr) \u2192 permutation arr (sorting arr)",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "The theorem asserts that the sorting function is stable and permutation preserving",
+      "The preconditions ensure that the input list is finite"
+    ],
+    "postconditions": [
+      "arr and sorting arr have the same elements",
+      "sorting arr is sorted"
+    ],
+    "preconditions": [
+      "arr is a finite list"
+    ],
+    "raw_text": "{\n  \"semantic_mode\": \"stable\",\n  \"lean\": \"theorem sorting_spec_stable: \u2200 (arr : List \u03b1), sorted (sorting arr) \u2192 permutation arr (sorting arr)\",\n  \"assumptions\": [\n    \"arr is a list of elements of type \u03b1\",\n    \"sorted is a function that checks if a list is sorted\",\n    \"permutation is a relation that checks if two lists are permutations of each other\",\n    \"sorting is a function that sorts a list\"\n  ],\n  \"preconditions\": [\n    \"arr is a finite list\"\n  ],\n  \"postconditions\": [\n    \"arr and sorting arr have the same elements\",\n    \"sorting arr is sorted\"\n  ],\n  \"invariants\": [\n    \"sorting is stable\",\n    \"sorting is permutation preserving\"\n  ],\n  \"examples\": [\n    \"[3, 1, 2] sorted to [1, 2, 3]\",\n    \"[5, 5, 2, 1] sorted to [1, 2, 5, 5]\"\n  ],\n  \"notes\": [\n    \"The theorem asserts that the sorting function is stable and permutation preserving\",\n    \"The preconditions ensure that the input list is finite\"\n  ]\n}",
+    "sample_index": 2,
+    "semantic_mode": "stable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "sorting_fn is a function that sorts a list of elements",
+      "\u03b1 is a type representing the elements in the list"
+    ],
+    "examples": [
+      "[3, 1, 2] sorted to [1, 2, 3]",
+      "[1, 2, 2, 3] sorted to [1, 2, 2, 3]"
+    ],
+    "invariants": [
+      "The relative order of equal elements is preserved after sorting",
+      "The length of the list remains the same after sorting"
+    ],
+    "lean": "theorem sorting_spec_stable_permutation_preserving : \u2200 (s : List \u03b1), sorted s \u2192 sorted (sorting_fn s) \u2227 is_permutation s (sorting_fn s)",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "Stable sorting ensures that the order of equal elements is maintained",
+      "Permutation preserving guarantees that the output contains the same elements as the input"
+    ],
+    "postconditions": [
+      "The output of sorting_fn applied to s is sorted",
+      "The output of sorting_fn applied to s is a permutation of s"
+    ],
+    "preconditions": [
+      "s is a list of elements of type \u03b1"
+    ],
+    "raw_text": "{\n  \"semantic_mode\": \"stable\",\n  \"lean\": \"theorem sorting_spec_stable_permutation_preserving : \u2200 (s : List \u03b1), sorted s \u2192 sorted (sorting_fn s) \u2227 is_permutation s (sorting_fn s)\",\n  \"assumptions\": [\n    \"sorting_fn is a function that sorts a list of elements\",\n    \"\u03b1 is a type representing the elements in the list\"\n  ],\n  \"preconditions\": [\n    \"s is a list of elements of type \u03b1\"\n  ],\n  \"postconditions\": [\n    \"The output of sorting_fn applied to s is sorted\",\n    \"The output of sorting_fn applied to s is a permutation of s\"\n  ],\n  \"invariants\": [\n    \"The relative order of equal elements is preserved after sorting\",\n    \"The length of the list remains the same after sorting\"\n  ],\n  \"examples\": [\n    \"[3, 1, 2] sorted to [1, 2, 3]\",\n    \"[1, 2, 2, 3] sorted to [1, 2, 2, 3]\"\n  ],\n  \"notes\": [\n    \"Stable sorting ensures that the order of equal elements is maintained\",\n    \"Permutation preserving guarantees that the output contains the same elements as the input\"\n  ]\n}",
+    "sample_index": 3,
+    "semantic_mode": "stable",
+    "task_id": "sortedness",
+    "task_title": "Sortedness Property"
+  },
+  {
+    "assumptions": [
+      "Time is discrete and ordered",
+      "Bucket has a maximum capacity",
+      "Refill and consume operations are atomic"
+    ],
+    "examples": [
+      "{'initial_tokens': 5, 'refill_amount': 3, 'consume_amount': 4, 'result_tokens': 4, 'timestamp': 't'}"
+    ],
+    "invariants": [
+      "Token count is always non-negative",
+      "Token count never exceeds maximum capacity"
+    ],
+    "lean": "theorem refill_before_consume (t: Time) (b: Bucket): b.refill(t) -> b.consume(t) -> b.tokens >= 0",
+    "model": "gpt-4o",
+    "notes": [
+      "Refill operation is prioritized over consume at the same timestamp",
+      "Ensures no negative token count due to simultaneous operations"
+    ],
+    "postconditions": [
+      "Tokens are refilled before consumption at the same timestamp",
+      "Token count does not exceed maximum capacity after refill"
+    ],
+    "preconditions": [
+      "Bucket is initialized with a non-negative token count",
+      "Refill rate and consume amount are defined"
+    ],
+    "raw_text": "```json\n{\n  \"semantic_mode\": \"refill_first\",\n  \"lean\": \"theorem refill_before_consume (t: Time) (b: Bucket): b.refill(t) -> b.consume(t) -> b.tokens >= 0\",\n  \"assumptions\": [\n    \"Time is discrete and ordered\",\n    \"Bucket has a maximum capacity\",\n    \"Refill and consume operations are atomic\"\n  ],\n  \"preconditions\": [\n    \"Bucket is initialized with a non-negative token count\",\n    \"Refill rate and consume amount are defined\"\n  ],\n  \"postconditions\": [\n    \"Tokens are refilled before consumption at the same timestamp\",\n    \"Token count does not exceed maximum capacity after refill\"\n  ],\n  \"invariants\": [\n    \"Token count is always non-negative\",\n    \"Token count never exceeds maximum capacity\"\n  ],\n  \"examples\": [\n    {\n      \"initial_tokens\": 5,\n      \"refill_amount\": 3,\n      \"consume_amount\": 4,\n      \"result_tokens\": 4,\n      \"timestamp\": \"t\"\n    }\n  ],\n  \"notes\": [\n    \"Refill operation is prioritized over consume at the same timestamp\",\n    \"Ensures no negative token count due to simultaneous operations\"\n  ]\n}\n```",
+    "sample_index": 1,
+    "semantic_mode": "refill_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "refill and consume can occur at the same timestamp",
+      "refill_amount and consume_amount are constants"
+    ],
+    "examples": [
+      "{'initial_tokens': 5, 'refill_amount': 3, 'consume_amount': 4, 'tokens_after': 4}",
+      "{'initial_tokens': 2, 'refill_amount': 5, 'consume_amount': 3, 'tokens_after': 4}"
+    ],
+    "invariants": [
+      "tokens >= 0",
+      "tokens <= bucket_capacity"
+    ],
+    "lean": "theorem refill_before_consume (t: Time) (b: Bucket): refill t b -> consume t b -> \u2200 t', t' = t -> tokens_after t' = tokens_before t' + refill_amount - consume_amount",
+    "model": "gpt-4o",
+    "notes": [
+      "Refill is applied before consumption at the same timestamp.",
+      "This choice affects the available tokens for immediate consumption."
+    ],
+    "postconditions": [
+      "tokens_after = tokens_before + refill_amount - consume_amount"
+    ],
+    "preconditions": [
+      "bucket is initialized",
+      "timestamp t is valid"
+    ],
+    "raw_text": "```json\n{\n  \"semantic_mode\": \"refill_first\",\n  \"lean\": \"theorem refill_before_consume (t: Time) (b: Bucket): refill t b -> consume t b -> \u2200 t', t' = t -> tokens_after t' = tokens_before t' + refill_amount - consume_amount\",\n  \"assumptions\": [\n    \"refill and consume can occur at the same timestamp\",\n    \"refill_amount and consume_amount are constants\"\n  ],\n  \"preconditions\": [\n    \"bucket is initialized\",\n    \"timestamp t is valid\"\n  ],\n  \"postconditions\": [\n    \"tokens_after = tokens_before + refill_amount - consume_amount\"\n  ],\n  \"invariants\": [\n    \"tokens >= 0\",\n    \"tokens <= bucket_capacity\"\n  ],\n  \"examples\": [\n    {\n      \"initial_tokens\": 5,\n      \"refill_amount\": 3,\n      \"consume_amount\": 4,\n      \"tokens_after\": 4\n    },\n    {\n      \"initial_tokens\": 2,\n      \"refill_amount\": 5,\n      \"consume_amount\": 3,\n      \"tokens_after\": 4\n    }\n  ],\n  \"notes\": [\n    \"Refill is applied before consumption at the same timestamp.\",\n    \"This choice affects the available tokens for immediate consumption.\"\n  ]\n}\n```",
+    "sample_index": 2,
+    "semantic_mode": "refill_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "TokenBucket has a finite capacity",
+      "Refill and consume operations are atomic"
+    ],
+    "examples": [
+      "{'initial_tokens': 5, 'capacity': 10, 'refill_amount': 3, 'consume_amount': 4, 'timestamp': 't', 'result': '4 tokens remaining'}"
+    ],
+    "invariants": [
+      "Token count is non-negative",
+      "Token count does not exceed capacity"
+    ],
+    "lean": "theorem refill_before_consume (t : Timestamp) (b : TokenBucket) : b.refill(t).consume(t) = b.consume(t).refill(t)",
+    "model": "gpt-4o",
+    "notes": [
+      "Refill is prioritized over consume at the same timestamp",
+      "Ensures maximum token availability for requests"
+    ],
+    "postconditions": [
+      "Tokens are refilled before consumption at timestamp t",
+      "Token count does not exceed capacity after refill"
+    ],
+    "preconditions": [
+      "TokenBucket is initialized",
+      "Timestamp t is valid"
+    ],
+    "raw_text": "```json\n{\n  \"semantic_mode\": \"refill_first\",\n  \"lean\": \"theorem refill_before_consume (t : Timestamp) (b : TokenBucket) : b.refill(t).consume(t) = b.consume(t).refill(t)\",\n  \"assumptions\": [\n    \"TokenBucket has a finite capacity\",\n    \"Refill and consume operations are atomic\"\n  ],\n  \"preconditions\": [\n    \"TokenBucket is initialized\",\n    \"Timestamp t is valid\"\n  ],\n  \"postconditions\": [\n    \"Tokens are refilled before consumption at timestamp t\",\n    \"Token count does not exceed capacity after refill\"\n  ],\n  \"invariants\": [\n    \"Token count is non-negative\",\n    \"Token count does not exceed capacity\"\n  ],\n  \"examples\": [\n    {\n      \"initial_tokens\": 5,\n      \"capacity\": 10,\n      \"refill_amount\": 3,\n      \"consume_amount\": 4,\n      \"timestamp\": \"t\",\n      \"result\": \"4 tokens remaining\"\n    }\n  ],\n  \"notes\": [\n    \"Refill is prioritized over consume at the same timestamp\",\n    \"Ensures maximum token availability for requests\"\n  ]\n}\n```",
+    "sample_index": 3,
+    "semantic_mode": "refill_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "Token bucket with capacity C and refill rate R",
+      "Refill and consume operations are atomic"
+    ],
+    "examples": [
+      "Initial tokens: 5, capacity: 10, refill rate: 2, consume 3 tokens -> 4 tokens remaining"
+    ],
+    "invariants": [
+      "Token bucket always maintains tokens <= capacity"
+    ],
+    "lean": "theorem token_bucket_refill_first { ... }",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "Ensures tokens are available for consumption immediately after refill"
+    ],
+    "postconditions": [
+      "Tokens are refilled before any tokens are consumed at the same timestamp"
+    ],
+    "preconditions": [
+      "Token bucket initialized with tokens less than or equal to capacity"
+    ],
+    "raw_text": "{\n  \"semantic_mode\": \"refill_first\",\n  \"lean\": \"theorem token_bucket_refill_first { ... }\",\n  \"assumptions\": [\n    \"Token bucket with capacity C and refill rate R\",\n    \"Refill and consume operations are atomic\"\n  ],\n  \"preconditions\": [\n    \"Token bucket initialized with tokens less than or equal to capacity\"\n  ],\n  \"postconditions\": [\n    \"Tokens are refilled before any tokens are consumed at the same timestamp\"\n  ],\n  \"invariants\": [\n    \"Token bucket always maintains tokens <= capacity\"\n  ],\n  \"examples\": [\n    \"Initial tokens: 5, capacity: 10, refill rate: 2, consume 3 tokens -> 4 tokens remaining\"\n  ],\n  \"notes\": [\n    \"Ensures tokens are available for consumption immediately after refill\"\n  ]\n}",
+    "sample_index": 1,
+    "semantic_mode": "refill_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "Token bucket rate limiter with refill rate r and capacity c",
+      "Refill and consume operations are atomic"
+    ],
+    "examples": [
+      "Refill 1 token and consume 1 token at the same timestamp"
+    ],
+    "invariants": [
+      "Token bucket tokens never exceed capacity c"
+    ],
+    "lean": "theorem token_bucket_refill_first { ... }",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "This specification assumes that refill operation happens before consume operation at the same timestamp"
+    ],
+    "postconditions": [
+      "Token bucket has tokens >= 0 after each operation"
+    ],
+    "preconditions": [
+      "Token bucket has initial tokens t0 <= c"
+    ],
+    "raw_text": "{\n  \"semantic_mode\": \"refill_first\",\n  \"lean\": \"theorem token_bucket_refill_first { ... }\",\n  \"assumptions\": [\n    \"Token bucket rate limiter with refill rate r and capacity c\",\n    \"Refill and consume operations are atomic\"\n  ],\n  \"preconditions\": [\n    \"Token bucket has initial tokens t0 <= c\"\n  ],\n  \"postconditions\": [\n    \"Token bucket has tokens >= 0 after each operation\"\n  ],\n  \"invariants\": [\n    \"Token bucket tokens never exceed capacity c\"\n  ],\n  \"examples\": [\n    \"Refill 1 token and consume 1 token at the same timestamp\"\n  ],\n  \"notes\": [\n    \"This specification assumes that refill operation happens before consume operation at the same timestamp\"\n  ]\n}",
+    "sample_index": 2,
+    "semantic_mode": "refill_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "Token bucket with capacity C and refill rate R",
+      "Refill and consume operations are atomic"
+    ],
+    "examples": [
+      "Initial tokens: 5, capacity: 10, refill rate: 2, consume 3 tokens -> 4 tokens left",
+      "Initial tokens: 0, capacity: 10, refill rate: 5, consume 2 tokens -> 3 tokens left"
+    ],
+    "invariants": [
+      "Number of tokens in the bucket is always between 0 and C"
+    ],
+    "lean": "theorem token_bucket_refill_first { ... }",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "Ensures that tokens are available for consumption immediately after refill",
+      "Helps in maintaining a steady rate of token availability"
+    ],
+    "postconditions": [
+      "Tokens are refilled before any tokens are consumed"
+    ],
+    "preconditions": [
+      "Token bucket initialized with tokens less than or equal to capacity C"
+    ],
+    "raw_text": "{\n  \"semantic_mode\": \"refill_first\",\n  \"lean\": \"theorem token_bucket_refill_first { ... }\",\n  \"assumptions\": [\n    \"Token bucket with capacity C and refill rate R\",\n    \"Refill and consume operations are atomic\"\n  ],\n  \"preconditions\": [\n    \"Token bucket initialized with tokens less than or equal to capacity C\"\n  ],\n  \"postconditions\": [\n    \"Tokens are refilled before any tokens are consumed\"\n  ],\n  \"invariants\": [\n    \"Number of tokens in the bucket is always between 0 and C\"\n  ],\n  \"examples\": [\n    \"Initial tokens: 5, capacity: 10, refill rate: 2, consume 3 tokens -> 4 tokens left\",\n    \"Initial tokens: 0, capacity: 10, refill rate: 5, consume 2 tokens -> 3 tokens left\"\n  ],\n  \"notes\": [\n    \"Ensures that tokens are available for consumption immediately after refill\",\n    \"Helps in maintaining a steady rate of token availability\"\n  ]\n}",
+    "sample_index": 3,
+    "semantic_mode": "refill_first",
+    "task_id": "rate_limiter",
+    "task_title": "Token-Bucket Rate Limiter"
+  },
+  {
+    "assumptions": [
+      "Time is a totally ordered set",
+      "valid_at is a predicate on Time"
+    ],
+    "examples": [
+      "valid_at 10 10 = false",
+      "valid_at 9 10 = true"
+    ],
+    "invariants": [
+      "Time progresses linearly",
+      "No time travel"
+    ],
+    "lean": "theorem token_expiry_exclusive (t : Time) (expiry : Time) : \u00ac valid_at t expiry \u2194 t \u2265 expiry",
+    "model": "gpt-4o",
+    "notes": [
+      "Boundary condition is exclusive",
+      "Token becomes invalid at expiry"
+    ],
+    "postconditions": [
+      "Token is invalid if t is equal to or greater than expiry"
+    ],
+    "preconditions": [
+      "t is a valid time",
+      "expiry is a valid time"
+    ],
+    "raw_text": "```json\n{\n  \"semantic_mode\": \"exclusive\",\n  \"lean\": \"theorem token_expiry_exclusive (t : Time) (expiry : Time) : \u00ac valid_at t expiry \u2194 t \u2265 expiry\",\n  \"assumptions\": [\"Time is a totally ordered set\", \"valid_at is a predicate on Time\"],\n  \"preconditions\": [\"t is a valid time\", \"expiry is a valid time\"],\n  \"postconditions\": [\"Token is invalid if t is equal to or greater than expiry\"],\n  \"invariants\": [\"Time progresses linearly\", \"No time travel\"],\n  \"examples\": [\"valid_at 10 10 = false\", \"valid_at 9 10 = true\"],\n  \"notes\": [\"Boundary condition is exclusive\", \"Token becomes invalid at expiry\"]\n}\n```",
+    "sample_index": 1,
+    "semantic_mode": "exclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  },
+  {
+    "assumptions": [
+      "Time is a totally ordered set",
+      "valid_at t expiry checks token validity at time t"
+    ],
+    "examples": [
+      "valid_at 10 10 = false",
+      "valid_at 9 10 = true"
+    ],
+    "invariants": [
+      "Time progresses linearly",
+      "No time travel"
+    ],
+    "lean": "theorem token_expiry_exclusive (t : Time) (expiry : Time) : \u00ac valid_at t expiry \u2194 t \u2265 expiry",
+    "model": "gpt-4o",
+    "notes": [
+      "This interpretation prevents token use exactly at the expiry time."
+    ],
+    "postconditions": [
+      "Token is invalid if t is equal to or greater than expiry"
+    ],
+    "preconditions": [
+      "t is a valid time",
+      "expiry is a valid time"
+    ],
+    "raw_text": "```json\n{\n  \"semantic_mode\": \"exclusive\",\n  \"lean\": \"theorem token_expiry_exclusive (t : Time) (expiry : Time) : \u00ac valid_at t expiry \u2194 t \u2265 expiry\",\n  \"assumptions\": [\"Time is a totally ordered set\", \"valid_at t expiry checks token validity at time t\"],\n  \"preconditions\": [\"t is a valid time\", \"expiry is a valid time\"],\n  \"postconditions\": [\"Token is invalid if t is equal to or greater than expiry\"],\n  \"invariants\": [\"Time progresses linearly\", \"No time travel\"],\n  \"examples\": [\"valid_at 10 10 = false\", \"valid_at 9 10 = true\"],\n  \"notes\": [\"This interpretation prevents token use exactly at the expiry time.\"]\n}\n```",
+    "sample_index": 2,
+    "semantic_mode": "exclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  },
+  {
+    "assumptions": [
+      "Time is a totally ordered set",
+      "valid_at t expiry checks token validity at time t"
+    ],
+    "examples": [
+      "valid_at 10 10 = false",
+      "valid_at 9 10 = true"
+    ],
+    "invariants": [
+      "Time progresses linearly",
+      "Token validity is binary"
+    ],
+    "lean": "theorem token_expiry_exclusive (t : Time) (expiry : Time) : \u00ac valid_at t expiry \u2194 t \u2265 expiry",
+    "model": "gpt-4o",
+    "notes": [
+      "This interpretation prevents token use at the exact expiry time"
+    ],
+    "postconditions": [
+      "Token is invalid at time t if t is equal to or greater than expiry"
+    ],
+    "preconditions": [
+      "t is a valid time",
+      "expiry is a valid time"
+    ],
+    "raw_text": "```json\n{\n  \"semantic_mode\": \"exclusive\",\n  \"lean\": \"theorem token_expiry_exclusive (t : Time) (expiry : Time) : \u00ac valid_at t expiry \u2194 t \u2265 expiry\",\n  \"assumptions\": [\"Time is a totally ordered set\", \"valid_at t expiry checks token validity at time t\"],\n  \"preconditions\": [\"t is a valid time\", \"expiry is a valid time\"],\n  \"postconditions\": [\"Token is invalid at time t if t is equal to or greater than expiry\"],\n  \"invariants\": [\"Time progresses linearly\", \"Token validity is binary\"],\n  \"examples\": [\"valid_at 10 10 = false\", \"valid_at 9 10 = true\"],\n  \"notes\": [\"This interpretation prevents token use at the exact expiry time\"]\n}\n```",
+    "sample_index": 3,
+    "semantic_mode": "exclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  },
+  {
+    "assumptions": [
+      "token.valid"
+    ],
+    "examples": [
+      "Token expires at time 10, current time is 10, token is valid at expiry"
+    ],
+    "invariants": [
+      "token.valid \u2194 (current_time < token.expiry_time)"
+    ],
+    "lean": "theorem token_valid_at_expiry {expiry_time : \u2115} (token : Token) : Prop := token.valid \u2227 token.expiry_time = expiry_time",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "This specification assumes that the token is considered valid exactly at the expiry timestamp."
+    ],
+    "postconditions": [
+      "token.valid"
+    ],
+    "preconditions": [
+      "token.expiry_time = expiry_time"
+    ],
+    "raw_text": "{\n  \"semantic_mode\": \"inclusive\",\n  \"lean\": \"theorem token_valid_at_expiry {expiry_time : \u2115} (token : Token) : Prop := token.valid \u2227 token.expiry_time = expiry_time\",\n  \"assumptions\": [\"token.valid\"],\n  \"preconditions\": [\"token.expiry_time = expiry_time\"],\n  \"postconditions\": [\"token.valid\"],\n  \"invariants\": [\"token.valid \u2194 (current_time < token.expiry_time)\"],\n  \"examples\": [\"Token expires at time 10, current time is 10, token is valid at expiry\"],\n  \"notes\": [\"This specification assumes that the token is considered valid exactly at the expiry timestamp.\"]\n}",
+    "sample_index": 1,
+    "semantic_mode": "inclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  },
+  {
+    "assumptions": [
+      "token: the token being validated",
+      "current_time: the current time when validation is performed"
+    ],
+    "examples": [
+      "Token with expiry at 10:00 AM, current time 10:00 AM => valid",
+      "Token with expiry at 10:00 AM, current time 10:01 AM => invalid"
+    ],
+    "invariants": [
+      "the validity of the token at expiry is determined solely by the comparison of expiry time and current time"
+    ],
+    "lean": "def token_valid_at_expiry (token : Token) : Prop := token.expiry <= current_time",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "This specification considers the token to be valid at the exact moment of its expiry",
+      "The comparison is inclusive to ensure the token is valid until the exact expiry time"
+    ],
+    "postconditions": [
+      "the token is considered valid at its expiry timestamp if the expiry time is less than or equal to the current time"
+    ],
+    "preconditions": [
+      "token must have a defined expiry timestamp",
+      "current_time must be defined"
+    ],
+    "raw_text": "{\n  \"semantic_mode\": \"inclusive\",\n  \"lean\": \"def token_valid_at_expiry (token : Token) : Prop := token.expiry <= current_time\",\n  \"assumptions\": [\n    \"token: the token being validated\",\n    \"current_time: the current time when validation is performed\"\n  ],\n  \"preconditions\": [\n    \"token must have a defined expiry timestamp\",\n    \"current_time must be defined\"\n  ],\n  \"postconditions\": [\n    \"the token is considered valid at its expiry timestamp if the expiry time is less than or equal to the current time\"\n  ],\n  \"invariants\": [\n    \"the validity of the token at expiry is determined solely by the comparison of expiry time and current time\"\n  ],\n  \"examples\": [\n    \"Token with expiry at 10:00 AM, current time 10:00 AM => valid\",\n    \"Token with expiry at 10:00 AM, current time 10:01 AM => invalid\"\n  ],\n  \"notes\": [\n    \"This specification considers the token to be valid at the exact moment of its expiry\",\n    \"The comparison is inclusive to ensure the token is valid until the exact expiry time\"\n  ]\n}",
+    "sample_index": 2,
+    "semantic_mode": "inclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  },
+  {
+    "assumptions": [
+      "Token has an expiry timestamp",
+      "Current time is known"
+    ],
+    "examples": [
+      "Token expires at 10:00:00, current time is 10:00:00 => token_valid_at_expiry(token) is true",
+      "Token expires at 10:00:00, current time is 10:00:01 => token_valid_at_expiry(token) is false"
+    ],
+    "invariants": [
+      "Token remains valid until the expiry timestamp inclusive"
+    ],
+    "lean": "def token_valid_at_expiry (token : Token) : Prop := token.expiry \u2264 current_time",
+    "model": "gpt-3.5-turbo",
+    "notes": [
+      "The token is considered valid at the exact moment of expiry",
+      "Inclusive boundary semantics are used for token expiry validation"
+    ],
+    "postconditions": [
+      "Token is considered valid exactly at the expiry timestamp"
+    ],
+    "preconditions": [
+      "Token is valid"
+    ],
+    "raw_text": "{\n  \"semantic_mode\": \"inclusive\",\n  \"lean\": \"def token_valid_at_expiry (token : Token) : Prop := token.expiry \u2264 current_time\",\n  \"assumptions\": [\n    \"Token has an expiry timestamp\",\n    \"Current time is known\"\n  ],\n  \"preconditions\": [\n    \"Token is valid\"\n  ],\n  \"postconditions\": [\n    \"Token is considered valid exactly at the expiry timestamp\"\n  ],\n  \"invariants\": [\n    \"Token remains valid until the expiry timestamp inclusive\"\n  ],\n  \"examples\": [\n    \"Token expires at 10:00:00, current time is 10:00:00 => token_valid_at_expiry(token) is true\",\n    \"Token expires at 10:00:00, current time is 10:00:01 => token_valid_at_expiry(token) is false\"\n  ],\n  \"notes\": [\n    \"The token is considered valid at the exact moment of expiry\",\n    \"Inclusive boundary semantics are used for token expiry validation\"\n  ]\n}",
+    "sample_index": 3,
+    "semantic_mode": "inclusive",
+    "task_id": "token_expiry",
+    "task_title": "Token Expiry Semantics"
+  }
+]
